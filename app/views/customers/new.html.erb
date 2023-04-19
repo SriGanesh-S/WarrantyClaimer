@@ -1,0 +1,18 @@
+
+<h1>New Customer</h1>
+<%if @customer.errors.any?%>
+    <% @customer.errors.full_messages.each do|message| %>
+     <p><%=message%></p>
+    <%end%>
+ <%end%>
+<%=form_with model: @customer do|form|%>
+<div>
+    <%= form.label :Name %>
+    <%= form.text_field :name %>
+</div>
+<div>
+     <%= form.label :Email %>
+     <%= form.email_field :email %>
+</div>
+<%=form.submit %>
+<%end%>

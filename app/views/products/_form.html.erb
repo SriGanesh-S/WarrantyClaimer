@@ -1,0 +1,20 @@
+<%if @product.errors.any?%>
+    <% @product.errors.full_messages.each do|message| %>
+     <p><%=message%></p>
+    <%end%>
+ <%end%>
+<%=form_with model: @product do|form|%>
+<div>
+    <%= form.label :Name %>
+    <%= form.text_field :name %>
+</div>
+<div>
+     <%= form.label :category %>
+     <%= form.text_field :category %>
+</div>
+<div>
+     <%= form.label :purchase_date %>
+     <%= form.date_field :purchase_date %>
+</div>
+<%=form.submit %>
+<%end%>

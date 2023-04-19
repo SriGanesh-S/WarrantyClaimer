@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  warranty_claim: one
+  product: one
+  status: MyString
+  description: MyText
+
+two:
+  warranty_claim: two
+  product: two
+  status: MyString
+  description: MyText

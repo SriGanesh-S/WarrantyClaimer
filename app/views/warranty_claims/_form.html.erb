@@ -1,0 +1,16 @@
+<%if @warranty_claim.errors.any?%>
+    <% @warranty_claim.errors.full_messages.each do|message| %>
+     <p><%=message%></p>
+    <%end%>
+ <%end%>
+<%=form_with model: @warranty_claim do|form|%>
+<div>
+    <%= form.label :Product_ID %>
+    <%= form.number_field :product_id %>
+</div>
+<div>
+     <%= form.label :Problem_Description%>
+     <%= form.text_area  :problem_description %>
+</div>
+<%=form.submit %>
+<%end%>

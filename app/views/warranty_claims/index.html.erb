@@ -1,0 +1,19 @@
+<h1>Warranty Claim  Lists </h1>
+<%= link_to 'Register New Claim',new_warranty_claim_path %>
+<table>
+    <thead>
+        <tr>   <th>Id </th> <th>product_id </th> <th colspan ="3"> Actions</th></tr>
+    <thead>
+    <tbody>
+        <%@warranty_claims.each do |warranty_claim| %>
+       <tr>
+        <td> <%= warranty_claim.id %> </td>
+         <td> <%= warranty_claim.product_id %> </td>
+         
+         <td> <%= link_to 'View',warranty_claim %> </td>
+          <td> <%= link_to 'Edit', edit_warranty_claim_path(warranty_claim)  %> </td>
+          <td> <%= link_to 'Delete', warranty_claim, method: :delete, data: {confirm: 'Are You Sure? Do you want to delete it' } %> </td>
+       </tr>
+       <%end%> 
+    </tbody>
+</table>

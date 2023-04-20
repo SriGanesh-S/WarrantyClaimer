@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<h4><p>  <strong> Door No: </strong>  <%= @address.door_no%></p></h4>
+<h4><p><strong>Street:</strong> <%= @address.street %></p></h4>
+<h4><p><strong>District:</strong> <%= @address.district %></p></h4>
+<h4><p>  <strong> State: </strong>  <%= @address.state %></p></h4>
+<h4><p><strong>Pin Code:</strong> <%= @address.pin_code %></p></h4>
+<h4><p><strong>phone:</strong> <%= @address.phone %></p></h4>
+<%= link_to 'Edit', edit_address_path(@address) %> |
+<%= link_to 'Back', addresses_path %>

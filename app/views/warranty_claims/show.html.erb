@@ -1,6 +1,9 @@
-<h1>Warranty Claim Details </h1>
+<div class="col-lg-10" >
+<h1>
+Warranty Claim Details </h1>
 <p> <strong> Claim ID: </strong> <%= @warranty_claim.id %></p>
 <p><strong>Product ID:</strong> <%= @warranty_claim.product_id %></p>
 <p><strong>Problem Description:</strong> <%= @warranty_claim.problem_description %></p>
 
 <%=link_to 'Back' , warranty_claims_path %>|<%=link_to 'Edit' ,edit_warranty_claim_path(@warranty_claim)  %>
+</div>

@@ -1,4 +1,6 @@
 
+<div>
+<div class="col-lg-10" >
 <h1>New Customer</h1>
 <%if @customer.errors.any?%>
     <% @customer.errors.full_messages.each do|message| %>
@@ -16,3 +18,4 @@
 </div>
 <%=form.submit %>
 <%end%>
+</div>

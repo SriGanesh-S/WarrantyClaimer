@@ -27,7 +27,7 @@ class WarrantyClaimsController < ApplicationController
             end
           #saves the changes to DB
             def update
-                 @warranty_claim.customer_id = 1
+                 @warranty_claim.customer_id 
 
                 if(@warranty_claim.update(product_params))
                     redirect_to warranty_claims_path

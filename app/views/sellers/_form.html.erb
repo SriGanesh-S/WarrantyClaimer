@@ -4,13 +4,13 @@
     <%end%>
  <%end%>
 <%=form_with model: @seller do|form|%>
-<div>
+<div class="form-group">
     <%= form.label :Name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name ,class: "form-control" %>
 </div>
-<div>
+<div class="form-group">
      <%= form.label :Email %>
-     <%= form.email_field :email %>
+     <%= form.email_field :email ,class: "form-control" %>
 </div>
 <%=form.submit %>
 <%end%>

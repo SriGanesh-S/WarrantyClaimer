@@ -1,5 +1,10 @@
+<div class="col-lg-10" >
 <h1>Customer Details </h1>
 <p> <strong> Name: </strong> <%= @customer.name %></p>
 <p><strong>Email:</strong> <%= @customer.email %></p>
 
 <%=link_to 'Back' , customers_path %>|<%=link_to 'Edit' ,edit_customer_path(@customer)  %>
+<br>
+<%=link_to 'Register Warranty' ,new_warranty_claim_path(@customer)  %>
+<%=link_to 'Track Warranty' ,warranty_claims_path(@customer)  %>
+</div>

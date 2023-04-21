@@ -1,3 +1,4 @@
+<div class="col-lg-10" >
 <p id="notice"><%= notice %></p>
 
 <h1>Claim Statuses</h1>
@@ -12,6 +13,7 @@
   <tbody>
     <% @claim_statuses.each do |claim_status| %>
       <tr>
+        <td><%= claim_status.id %></td>
         <td><%= link_to 'Show', claim_status %></td>
         <td><%= link_to 'Edit', edit_claim_status_path(claim_status) %></td>
         <td><%= link_to 'Destroy', claim_status, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -23,3 +25,4 @@
 <br>
 
 <%= link_to 'New Claim Status', new_claim_status_path %>
+</div>

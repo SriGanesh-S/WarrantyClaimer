@@ -1,3 +1,4 @@
+<div class="col-lg-10" >
 <%= form_with(model: claim_status) do |form| %>
   <% if claim_status.errors.any? %>
     <div id="error_explanation">
@@ -10,17 +11,17 @@
       </ul>
     </div>
   <% end %>
-  <div>
+  <div class="form-group">
     <%= form.label :Warranty_claim_id %>
-    <%= form.text_field :warranty_claim_id %>
+    <%= form.text_field :warranty_claim_id ,class:"form-control"%>
 </div>
-<div>
+<div class="form-group">
      <%= form.label :status %>
-     <%= form.text_field :status %>
+     <%= form.text_field :status,class:"form-control" %>
 </div>
-<div>
+<div class="form-group">
      <%= form.label :Description %>
-     <%= form.text_field :description %>
+     <%= form.text_field :description ,class:"form-control"%>
 </div>
 
 
@@ -28,3 +29,4 @@
     <%= form.submit %>
   </div>
 <% end %>
+</div>

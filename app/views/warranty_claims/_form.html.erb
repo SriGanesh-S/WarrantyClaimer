@@ -4,13 +4,15 @@
     <%end%>
  <%end%>
 <%=form_with model: @warranty_claim do|form|%>
-<div>
+<div class="form">
+<div class="form-group">
     <%= form.label :Product_ID %>
-    <%= form.number_field :product_id %>
+    <%= form.number_field :product_id,class:"form-control" %>
 </div>
-<div>
+<div class=form-group>
      <%= form.label :Problem_Description%>
-     <%= form.text_area  :problem_description %>
+     <%= form.text_area  :problem_description ,class:"form-control" %>
 </div>
 <%=form.submit %>
+</div>
 <%end%>

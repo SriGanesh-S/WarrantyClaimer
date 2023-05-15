@@ -9,6 +9,7 @@
     <tbody>
         <%@customers.each do |customer| %>
        <tr>
+    
          <td> <%= customer.name %> </td>
          <td> <%= customer.email %> </td>
          <td> <%= link_to 'Login ',customer %> </td>

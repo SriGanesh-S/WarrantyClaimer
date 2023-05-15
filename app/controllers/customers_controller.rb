@@ -6,12 +6,13 @@ class CustomersController < ApplicationController
   #used to instantiate a customer
     def new
         @customer=Customer.new
+
     end
   #used to insert the new record in DB
     def create
         @customer=Customer.new(customer_params)
         if(@customer.save)
-            redirect_to customers_path
+            redirect_to shipping_address_path
         else
             render :new
         end
@@ -42,6 +43,11 @@ class CustomersController < ApplicationController
         else
             render :edit 
         end
+    end
+
+    def dashboard
+        @warranty_claims = WarrantyClaim.where(customer_id: current_user.userable.id)
+
     end
 
  private

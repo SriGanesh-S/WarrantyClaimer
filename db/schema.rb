@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_20_042639) do
+ActiveRecord::Schema.define(version: 2023_05_15_144117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,12 @@ ActiveRecord::Schema.define(version: 2023_04_20_042639) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "age"
+    t.string "gender"
+    t.bigint "phone_no"
+    t.integer "primary_address"
+    t.bigint "primary_address_id"
+    t.index ["primary_address_id"], name: "index_customers_on_primary_address_id"
   end
 
   create_table "customers_sellers", id: false, force: :cascade do |t|
@@ -60,9 +66,30 @@ ActiveRecord::Schema.define(version: 2023_04_20_042639) do
 
   create_table "sellers", force: :cascade do |t|
     t.string "name"
-    t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
+    t.string "organisation_name"
+    t.string "designation"
+    t.bigint "phone_no"
+    t.integer "primary_address"
+    t.bigint "primary_address_id"
+    t.index ["primary_address_id"], name: "index_sellers_on_primary_address_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "role"
+    t.string "userable_type"
+    t.integer "userable_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "warranty_claims", force: :cascade do |t|
@@ -76,6 +103,8 @@ ActiveRecord::Schema.define(version: 2023_04_20_042639) do
   end
 
   add_foreign_key "claim_statuses", "warranty_claims"
+  add_foreign_key "customers", "addresses", column: "primary_address_id"
+  add_foreign_key "sellers", "addresses", column: "primary_address_id"
   add_foreign_key "warranty_claims", "customers"
   add_foreign_key "warranty_claims", "products"
 end

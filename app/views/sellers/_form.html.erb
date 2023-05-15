@@ -12,5 +12,13 @@
      <%= form.label :Email %>
      <%= form.email_field :email ,class: "form-control" %>
 </div>
+<div class="form-group">
+     <%= form.label :Organisation %>
+     <%= form.text_field :organisation_name ,class: "form-control" %>
+</div>
+<div class="form-group">
+     <%= form.label :Designation %>
+     <%= form.text_field :designation ,class: "form-control" %>
+</div>
 <%=form.submit %>
 <%end%>

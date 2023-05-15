@@ -11,9 +11,10 @@ class WarrantyClaimsController < ApplicationController
           #used to insert the new record in DB
             def create
                 @warranty_claim=WarrantyClaim.new(warranty_claim_params)
-                @warranty_claim.customer_id=1
+                @warranty_claim.customer_id=current_user.userable_id
                 if(@warranty_claim.save)
-                    redirect_to warranty_claims_path
+                    set_claim_status 
+                    redirect_to primary_address_path
                 else
                     render :new
                 end
@@ -51,6 +52,14 @@ class WarrantyClaimsController < ApplicationController
             end
             def warranty_claim_params
                 params.require( :warranty_claim).permit(:product_id, :problem_description)
+            end
+            def set_claim_status
+                @claim_status=ClaimStatus.new
+                @claim_status.warranty_claim_id=@warranty_claim.id
+                @claim_status.status="In Progress"
+                @claim_status.description="Our Team will Validate your claim"
+                @claim_status.save
+
             end
         
    end

@@ -1,0 +1,119 @@
+<h2>Sign up</h2><Br>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" ,required: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" ,required: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" ,required: true %>
+  </div>
+   <div class="field">
+    <%= f.label :role %><br />
+    <%= f.select :role ,[['Seller','Seller'],['Customer','Customer']] , class: "form-control", required: true %>
+  </div>
+
+  <!--Personal Details-->
+  <fieldset>
+  <legend><b> Additional Details</b></legend>
+  <%= fields_for :details do |d| %>
+  <div class="field">
+    <%= d.label :name %><br />
+    <%= d.text_field :name, autocomplete: "name" , class: "form-control", required: true %>
+  </div>
+
+  <div class = "field">
+    <%= d.label :phone_no %><br />
+    <%= d.number_field :phone_no, autocomplete: "email" , class: "form-control" , required: true %>
+  </div>
+
+  <%end%>
+  </fieldset>
+
+   <br> <br>
+
+    <fieldset>
+  <legend><b>Customer Details</b>( Fill Only if you are a Customer)</legend>
+  <%=fields_for :customer_details do |cd|%>
+  <div class="field">
+    <%=cd.label :gender%><br>
+    <%=cd.text_field :gender ,  class: "form-control" %>
+    <br>
+    </div>
+  <div class="field">    
+    <%= cd.label :age %><br >
+    <%= cd.number_field :age, autocomplete: "email" , class: "form-control" , required: true %>
+  </div>
+  <%end%>
+  </fieldset>
+
+
+  <br><br>
+  <legend><b>Seller Details</b>( Fill Only if you are a Seller)</legend>
+   <%=fields_for :seller_details do |sd|%>
+   <div class="field">
+   <%=sd.label :organisation_name%><br>
+   <%=sd.text_field :organisation_name ,  class: "form-control" %>
+   </div>
+  <br>
+  <div class="field">
+  <%=sd.label :designation%><br>
+  <%=sd.text_field :designation ,  class: "form-control" %>
+  </div>
+  <br>
+
+
+  <%end%>
+  </fieldset>
+  <!--Address Details-->
+  <fieldset>
+  <legend><b>Address</b></legend>
+  <%= fields_for :address do |a| %>
+      
+      <%=a.label :door_no %><br>
+      <%=a.text_field :door_no , class: "form-control" , required: true %>
+      <br>
+
+
+      <%=a.label :street %><br>
+      <%=a.text_field :street,  class: "form-control"  , required: true %>
+      <br>
+
+      <%=a.label :district %><br>
+      <%=a.text_field :district ,  class: "form-control"  , required: true %>
+      <br>
+
+      <%=a.label :state %><br>
+      <%=a.text_field :state  ,  class: "form-control" , required: true %>
+      <br>
+
+      <%=a.label :pin_code %><br>
+      <%=a.number_field :pin_code ,  class: "form-control" , required: true %>
+      <br>
+
+  <%end%>
+  </fieldset>
+  </fieldset>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+ 
+
+
+
+
+<%= render "devise/shared/links" %>

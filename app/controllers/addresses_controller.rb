@@ -24,7 +24,8 @@ class AddressesController < ApplicationController
     @address = Address.new(address_params)
 
     respond_to do |format|
-      @address.addressable_type='Customer'
+      @address.addressable_id=current_user.userable_id
+      @address.addressable_type=current_user.role
       if @address.save
         format.html { redirect_to address_url(@address), notice: "Address was successfully created." }
         format.json { render :show, status: :created, location: @address }
@@ -38,7 +39,8 @@ class AddressesController < ApplicationController
   # PATCH/PUT /addresses/1 or /addresses/1.json
   def update
     respond_to do |format|
-      @address.addressable_type='Customer'
+      @address.addressable_id=current_user.userable_id
+      @address.addressable_type=current_user.role
       if @address.update(address_params)
         format.html { redirect_to address_url(@address), notice: "Address was successfully updated." }
         format.json { render :show, status: :ok, location: @address }
@@ -68,5 +70,15 @@ class AddressesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def address_params
       params.fetch(:address, {}).permit(:door_no,:street,:district,:state,:pin_code,:phone,:addressable_id,:addressable_type)
+    end
+
+    def primary_address
+      @addresss_id = params[:id]
+    current_user.userable.update(primary_address: @addresss_id)
+    if current_user.customer?
+    redirect_to cust_dashboard
+    elsif current_user.seller?
+      redirect_to seller_dashboard
+    end
     end
 end

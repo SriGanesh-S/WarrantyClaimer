@@ -11,9 +11,9 @@ class ProductsController < ApplicationController
        #used to insert the new record in DB
          def create
              @product=Product.new(product_params)
-             @product.seller_id=1
+             @product.seller_id=current_user.userable_id
              if(@product.save)
-                 redirect_to products_path
+                 redirect_to seller_dashboard
              else
                  render :new
              end
@@ -27,7 +27,7 @@ class ProductsController < ApplicationController
          end
        #saves the changes to DB
          def update
-              @product.seller_id =1
+              @product.seller_id = current_user.userable_id
              if(@product.update(product_params))
                  redirect_to products_path
              else

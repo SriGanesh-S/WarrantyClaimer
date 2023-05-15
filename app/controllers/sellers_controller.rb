@@ -42,6 +42,12 @@ class SellersController < ApplicationController
         end
     end
 
+    def dashboard
+        @warranty_claims = WarrantyClaim.joins(product: :seller).where(sellers: { id: current_user.userable.id })
+        
+      end
+    
+
  private
     def set_seller
         @seller=Seller.find(params[:id])

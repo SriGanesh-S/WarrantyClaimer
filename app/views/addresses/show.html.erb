@@ -8,5 +8,11 @@
 <h4><p><strong>Pin Code:</strong> <%= @address.pin_code %></p></h4>
 <h4><p><strong>phone:</strong> <%= @address.phone %></p></h4>
 <%= link_to 'Edit', edit_address_path(@address) %> |
-<%= link_to 'Back', addresses_path %>
+<%= link_to 'Back', 
+if current_user.seller?
+     seller_dashboard_path 
+elsif current_user.customer?
+     cust_dashboard_path
+ end  
+ %>
 </div>

@@ -53,6 +53,6 @@ class SellersController < ApplicationController
         @seller=Seller.find(params[:id])
     end
     def seller_params
-        params.require( :seller).permit(:name, :email)
+        params.require( :seller).permit(:name, :email,:organisation_name,:designation,:description)
     end
 end

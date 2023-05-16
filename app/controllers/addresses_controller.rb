@@ -61,24 +61,31 @@ class AddressesController < ApplicationController
     end
   end
 
+  def primary_address
+    @addresss_id = params[:id]
+    current_user.userable.update(primary_address: @addresss_id)
+    if current_user.customer?
+      redirect_to cust_dashboard_path
+    elsif current_user.customer?
+      redirect_to seller_dashboard_path
+    end
+  end
+
+  def change_primary_address
+    @addresses = Address.where(addressable_id: current_user.userable.id)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_address
       @address = Address.find(params[:id])
     end
-
+   private
     # Only allow a list of trusted parameters through.
     def address_params
       params.fetch(:address, {}).permit(:door_no,:street,:district,:state,:pin_code,:phone,:addressable_id,:addressable_type)
     end
 
-    def primary_address
-      @addresss_id = params[:id]
-    current_user.userable.update(primary_address: @addresss_id)
-    if current_user.customer?
-    redirect_to cust_dashboard
-    elsif current_user.seller?
-      redirect_to seller_dashboard
-    end
-    end
+    
+    
 end

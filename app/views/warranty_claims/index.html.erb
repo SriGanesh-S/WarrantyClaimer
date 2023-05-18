@@ -9,7 +9,7 @@
         <%@warranty_claims.each do |warranty_claim| %>
        <tr>
         <td> <%= warranty_claim.id %> </td>
-         <td> <%= warranty_claim.product_id %> </td>
+
          
          <td> <%= link_to 'View',warranty_claim %> </td>
           <td> <%= link_to 'Edit', edit_warranty_claim_path(warranty_claim)  %> </td>

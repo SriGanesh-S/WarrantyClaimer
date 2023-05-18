@@ -63,10 +63,10 @@ class AddressesController < ApplicationController
 
   def primary_address
     @addresss_id = params[:id]
-    current_user.userable.update(primary_address: @addresss_id)
+    current_user.userable.update(primary_address_id: @addresss_id)
     if current_user.customer?
       redirect_to cust_dashboard_path
-    elsif current_user.customer?
+    elsif current_user.seller?
       redirect_to seller_dashboard_path
     end
   end

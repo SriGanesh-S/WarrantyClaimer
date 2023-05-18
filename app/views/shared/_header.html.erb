@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">Warranty claim</a>
+  <a class="navbar-brand" href="/">Warranty claimer</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -19,6 +19,7 @@
              cust_dashboard_path
              end     
         %>
+
        <%else%>
          <li class="nav-item">
           <div class="nav-link">
@@ -30,34 +31,56 @@
        <%end%>
         </div> 
       </li>
-      
+       <%if user_signed_in?%>
       <li class="nav-item">
       <div class="nav-link" >
-          <%if user_signed_in?%>
+         
            <%= link_to 'Profile', 
            if current_user.seller?
               seller_path(current_user.userable_id)   
            elsif current_user.customer?
                 customer_path(current_user.userable_id) 
-            end    
+            end 
+               
            %>
-           <%end%>
+          
         </div>
-
+        </li>
+      <%  if current_user.seller?%>
+        <li class="nav-item">
+         <div class="nav-link" >
+          
+           <%= link_to 'Products', 
+              products_path  
+          
+               
+           %>
+          
+        </div>
+       </li>
+       <%end%>
 
 
       <li class="nav-item">
         <div class="nav-link" >
-         <%if user_signed_in?%>
+        
              <%= link_to 'Change Address',change_primary_address_path %>
-         <%end%>
+       
+         </div>
+         
+      </li>
+      <li class="nav-item">
+        <div class="nav-link" >
+        
+             <%= link_to 'Log Out',destroy_user_session_path, method: :delete%>
+       
          </div>
          
       </li>
       
     
         
-      </li>
+        <%end%>
    
     </ul>
     

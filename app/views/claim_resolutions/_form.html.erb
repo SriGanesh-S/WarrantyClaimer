@@ -1,11 +1,11 @@
 <div class="col-lg-10" >
-<%= form_with(model: claim_status) do |form| %>
-  <% if claim_status.errors.any? %>
+<%= form_with(model: @claim_resolution) do |form| %>
+  <% if @claim_resolution.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(claim_status.errors.count, "error") %> prohibited this claim_status from being saved:</h2>
+      <h2><%= pluralize(claim_resolution.errors.count, "error") %> prohibited this claim_resolution from being saved:</h2>
 
       <ul>
-        <% claim_status.errors.each do |error| %>
+        <% @claim_resolution.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>

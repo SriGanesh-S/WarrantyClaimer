@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_15_144117) do
+ActiveRecord::Schema.define(version: 2023_05_18_090108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string "namespace"
+    t.text "body"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.string "author_type"
+    t.bigint "author_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.string "door_no"
@@ -28,13 +42,25 @@ ActiveRecord::Schema.define(version: 2023_05_15_144117) do
     t.integer "addressable_id"
   end
 
-  create_table "claim_statuses", force: :cascade do |t|
+  create_table "admin_users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_admin_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "claim_resolutions", force: :cascade do |t|
     t.bigint "warranty_claim_id", null: false
     t.string "status"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["warranty_claim_id"], name: "index_claim_statuses_on_warranty_claim_id"
+    t.index ["warranty_claim_id"], name: "index_claim_resolutions_on_warranty_claim_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -45,7 +71,6 @@ ActiveRecord::Schema.define(version: 2023_05_15_144117) do
     t.integer "age"
     t.string "gender"
     t.bigint "phone_no"
-    t.integer "primary_address"
     t.bigint "primary_address_id"
     t.index ["primary_address_id"], name: "index_customers_on_primary_address_id"
   end
@@ -55,10 +80,20 @@ ActiveRecord::Schema.define(version: 2023_05_15_144117) do
     t.bigint "seller_id", null: false
   end
 
+  create_table "invoices", force: :cascade do |t|
+    t.date "purchase_date"
+    t.bigint "product_id", null: false
+    t.bigint "customer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "cust_email"
+    t.index ["customer_id"], name: "index_invoices_on_customer_id"
+    t.index ["product_id"], name: "index_invoices_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "category"
-    t.date "sold_date"
     t.integer "seller_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -72,7 +107,6 @@ ActiveRecord::Schema.define(version: 2023_05_15_144117) do
     t.string "organisation_name"
     t.string "designation"
     t.bigint "phone_no"
-    t.integer "primary_address"
     t.bigint "primary_address_id"
     t.index ["primary_address_id"], name: "index_sellers_on_primary_address_id"
   end
@@ -93,18 +127,17 @@ ActiveRecord::Schema.define(version: 2023_05_15_144117) do
   end
 
   create_table "warranty_claims", force: :cascade do |t|
-    t.bigint "customer_id", null: false
-    t.bigint "product_id", null: false
     t.text "problem_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["customer_id"], name: "index_warranty_claims_on_customer_id"
-    t.index ["product_id"], name: "index_warranty_claims_on_product_id"
+    t.bigint "invoice_id"
+    t.index ["invoice_id"], name: "index_warranty_claims_on_invoice_id"
   end
 
-  add_foreign_key "claim_statuses", "warranty_claims"
+  add_foreign_key "claim_resolutions", "warranty_claims"
   add_foreign_key "customers", "addresses", column: "primary_address_id"
+  add_foreign_key "invoices", "customers"
+  add_foreign_key "invoices", "products"
   add_foreign_key "sellers", "addresses", column: "primary_address_id"
-  add_foreign_key "warranty_claims", "customers"
-  add_foreign_key "warranty_claims", "products"
+  add_foreign_key "warranty_claims", "invoices"
 end

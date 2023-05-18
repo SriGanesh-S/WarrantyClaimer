@@ -54,7 +54,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @address.addressable_type=params[:user][:role].camelcase
       @address.phone =userable.phone_no
       @address.save
-   userable.primary_address= @address.id
+   userable.primary_address_id= @address.id
     userable.save
   p "==================="
   p userable

@@ -1,0 +1,1 @@
+json.array! @claim_resolutions, partial: "claim_resolutions/claim_resolution", as: :claim_resolution

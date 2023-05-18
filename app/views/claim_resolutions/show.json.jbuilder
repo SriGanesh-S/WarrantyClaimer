@@ -1,0 +1,1 @@
+json.partial! "claim_resolutions/claim_resolution", claim_resolution: @claim_resolution

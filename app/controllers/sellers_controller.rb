@@ -27,7 +27,7 @@ class SellersController < ApplicationController
   #saves the changes to DB
     def update
         if(@seller.update(seller_params))
-            redirect_to sellers_path
+            redirect_to seller_dashboard_path
         else
             render :edit 
         end
@@ -42,10 +42,22 @@ class SellersController < ApplicationController
         end
     end
 
+    
     def dashboard
-        @warranty_claims = WarrantyClaim.joins(product: :seller).where(sellers: { id: current_user.userable.id })
-        
+        # @seller = Seller.find(current_user.userable.id)
+       # @products = current_user.userable.products
+        @warranty_claims = current_user.userable.warranty_claims
+
+      
+
+        p"==========="
+        p @warranty_claims
+       
+       
+      
       end
+        
+    
     
 
  private

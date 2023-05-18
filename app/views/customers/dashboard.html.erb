@@ -1,29 +1,37 @@
 <div class="container">
     <h1 class="mt-4">Welcome to the Customer Dashboard</h1>
   
-    <h2 class="mt-4">Your Warranty Claims</h2>
+    <h2 class="mt-4">Your Purchases</h2>
      
-    <% if @warranty_claims.any? %>
+    <% if @invoices.any? %>
       <table class="table mt-3">
         <thead class="thead-dark">
           <tr>
-            <th>Claim ID</th>
-            <th>Description</th>
-            <th>Status</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Purchase Date</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
          
-          <% @warranty_claims.each do |claim| %>
-           <% cur_status=ClaimStatus.where(warranty_claim_id: claim.id).last %>
+          <% @invoices.each do |invoice| %>
+           <% product=Product.find_by(id: invoice.product_id) %>
+             <%claim=WarrantyClaim.find_by(invoice_id: invoice.id) %>
             <tr>
-              <td><%= claim.id %></td>
-              <td><%= claim.problem_description %></td>
-              <td><%= cur_status.status %></td>
-              <td>
-                <%= link_to 'Show Description', claim_status_path(claim), class: 'btn btn-primary' %>
-              </td>
+              <td><%= product.name %></td>
+              <td><%= product.category %></td>
+              <td><%= invoice.purchase_date %></td>
+             <td>
+                <% if claim %>
+                   <%= link_to 'Track Status', claim_resolution_path(invoice.claim_resolution), class: 'btn btn-primary' %>
+
+            <% else %>
+                  <%= link_to 'Claim Warranty', new_warranty_claim_path(id: invoice.id), class: 'btn btn-primary' %>
+            <% end %>
+               
+             
+               </td>
             </tr>
           <% end %>
         </tbody>
@@ -32,6 +40,6 @@
       <p>No warranty claims found.</p>
     <% end %>
   
-    <%= link_to 'Register New Claim', new_warranty_claim_path, class: 'btn btn-success mt-4' %>
+    
   </div>
   

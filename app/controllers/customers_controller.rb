@@ -12,7 +12,7 @@ class CustomersController < ApplicationController
     def create
         @customer=Customer.new(customer_params)
         if(@customer.save)
-            redirect_to shipping_address_path
+            redirect_to change_primary_address_path
         else
             render :new
         end
@@ -30,7 +30,7 @@ class CustomersController < ApplicationController
     def update
         @customer=Customer.find(params[:id])
         if(@customer.update(customer_params))
-            redirect_to customers_path
+            redirect_to cust_dashboard_path
         else
             render :edit 
         end
@@ -46,7 +46,7 @@ class CustomersController < ApplicationController
     end
 
     def dashboard
-        @warranty_claims = WarrantyClaim.where(customer_id: current_user.userable.id)
+        @invoices = current_user.userable.invoices
 
     end
 

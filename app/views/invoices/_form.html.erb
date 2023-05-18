@@ -1,0 +1,17 @@
+<%if @invoice.errors.any?%>
+    <% @invoice.errors.full_messages.each do|message| %>
+     <p><%=message%></p>
+    <%end%>
+ <%end%>
+<%=form_with model: @invoice  ,url: {action: :generate} do|form|%>
+<div class="form-group">
+    <%= form.label :cust_email , 'Customer Email' %>
+    <%= form.text_field :cust_email, class:"form-control" %>
+</div>
+<div class="form-group">
+     <%= form.label :purchase_date, 'Purchase Date' %>
+     <%= form.date_field :purchase_date ,class:"form-control" %>
+</div>
+<%= form.hidden_field :id , value: @product.id %>
+<%=form.submit %>
+<%end%>

@@ -11,4 +11,11 @@ class User < ApplicationRecord
   def customer?
      role=="Customer"
   end
+
+  scope :customer, -> { User.where("role=?","Customer"  ) }
+  scope :seller , -> { User.where("role= ?","Seller") }
+
+
+
+  
 end

@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
  before_action :set_product, only: %i[show edit update destroy]
            #show all the products in DB
          def index 
-             @products=Product.all
+            @products=current_user.userable.products
          end
        #used to instantiate a product
          def new
@@ -13,7 +13,8 @@ class ProductsController < ApplicationController
              @product=Product.new(product_params)
              @product.seller_id=current_user.userable_id
              if(@product.save)
-                 redirect_to seller_dashboard
+                 flash[:notice]="Product created successfully: "
+                 redirect_to seller_dashboard_path
              else
                  render :new
              end
@@ -49,7 +50,7 @@ class ProductsController < ApplicationController
              @product=Product.find(params[:id])
          end
          def product_params
-             params.require( :product).permit(:name, :category, :sold_date)
+             params.require( :product).permit(:name, :category)
          end
      
 end

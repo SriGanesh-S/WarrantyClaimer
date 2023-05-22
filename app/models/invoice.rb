@@ -1,8 +1,8 @@
 class Invoice < ApplicationRecord
-  belongs_to :product
+  belongs_to :product 
   belongs_to :customer
-  has_one :warranty_claim
-  has_one :claim_resolution, through: :warranty_claim
+  has_one :warranty_claim , dependent: :destroy
+  has_one :claim_resolution, through: :warranty_claim,dependent: :destroy
 
 
 

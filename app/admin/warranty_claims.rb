@@ -32,8 +32,8 @@ ActiveAdmin.register WarrantyClaim do
   end
 
   scope :all
-  scope :open
-  scope :closed
+  scope :open_claims
+  scope :closed_claims
 
   filter :invoice_id
   filter :problem_description

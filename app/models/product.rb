@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
     belongs_to :seller
-    has_many :invoices
+    has_many :invoices, , dependent: :destroy
    
 
   

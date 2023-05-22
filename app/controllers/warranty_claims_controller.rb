@@ -33,7 +33,7 @@ class WarrantyClaimsController < ApplicationController
             def update
                  @warranty_claim.customer_id 
 
-                if(@warranty_claim.update(product_params))
+                if(@warranty_claim.update(warranty_claim_params))
                     redirect_to warranty_claims_path
                 else
                     render :edit 

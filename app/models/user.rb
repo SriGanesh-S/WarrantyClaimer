@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  belongs_to   :userable ,polymorphic: true
+  belongs_to   :userable ,polymorphic: true ,dependent: :destroy
 
   def seller?
     role=="Seller"

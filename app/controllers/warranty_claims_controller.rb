@@ -1,6 +1,7 @@
 class WarrantyClaimsController < ApplicationController
     before_action :set_warranty_claim, only: %i[show edit update destroy]
               #show all the warranty_claims in DB
+              before_action :authenticate_user!
             def index 
                 @warranty_claims=WarrantyClaim.all
             end

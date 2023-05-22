@@ -23,7 +23,11 @@ class Api::CustomersController < Api::ApiController
     def show
         @customer=Customer.find_by(id: params[:id])
         if @customer
+            if @customer.id==current_user.userable_id
             render json: @customer , status:200 #ok
+            else
+              render json:{message:"Forbidden Access to the profile"}, status:403 #forbidden
+            end
         else
             render json:{message:"Customer Not Found"}, status:404 #not_found
         end
@@ -34,11 +38,15 @@ class Api::CustomersController < Api::ApiController
     def update
         @customer=Customer.find_by(id: params[:id])
         if @customer
+          if @customer.id==current_user.userable_id
             if(@customer.update(customer_params))
               render json:@customer , status:202
             else
               render json:{error: @customer.errors.full_messages}, status:422 #unprocessable_entity
             end
+          else
+            render json:{message:"Forbidden Access to update the profile"}, status:403 #forbidden
+          end
         else
             render json:{error: "No Customer Found with given Id#{params[:id]}"}, status:404 #not_found
 
@@ -47,7 +55,7 @@ class Api::CustomersController < Api::ApiController
   #deletes a record from DB
     def destroy
         @customer=Customer.find_by(id: params[:id])
-        if @customer
+        if @customer && current_user.userable_id==@customer.id &&current_user.customer?
         
          if(@customer.destroy)
             render json:{ message: "Customer Deleted successfully"},status:200 #ok
@@ -55,16 +63,15 @@ class Api::CustomersController < Api::ApiController
             render json:{error: @customer.errors.full_messages}, status:422#unprocessable_entity
          end
         else
-            render json:{error: "No Customer Found with Given ID #{params[:id]}"}, status: 404#not_found
+            render json:{error: "Fobidden Access to delete the profile"}, status: 403
 
         end
     end
 
     def customer_invoices
-     @customer=Customer.find_by(id: params[:id])
-      if @customer
-
-        @invoices = Invoice.where(customer_id: params[:id])
+     @customer=Customer.find_by(id: current_user.userable_id)
+      if @customer && current_user.customer?
+        @invoices = @customer.invoices
         if @invoices
             render json:@invoices , status:200
         else
@@ -73,7 +80,7 @@ class Api::CustomersController < Api::ApiController
         end 
         
       else
-        render json:{error: "No Customer Found with Given ID #{params[:id]}"}, status: 404#not_found 
+        render json:{error: "Forbidden Access to update the profile"}, status: 403#forbidden
       end
     end
 

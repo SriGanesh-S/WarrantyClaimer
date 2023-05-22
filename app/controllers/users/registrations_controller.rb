@@ -30,7 +30,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     
   end
 
-  p "==================="
+  p "=========XXXXXZ=========="
   p userable
   p "==================="
 
@@ -54,12 +54,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @address.addressable_type=params[:user][:role].camelcase
       @address.phone =userable.phone_no
       @address.save
-   userable.primary_address_id= @address.id
-    userable.save
-  p "==================="
-  p userable
-  p "==================="
-
+    
+      userable.primary_address_id= @address.id
+      userable.save
+      p "xxxxxxxxxxxxxxxxxxxxxxxx"
+      p @address
   
 
   

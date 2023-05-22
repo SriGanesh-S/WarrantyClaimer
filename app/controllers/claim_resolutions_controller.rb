@@ -1,5 +1,6 @@
 class ClaimResolutionsController < ApplicationController
     before_action :set_claim_resolution, only: %i[ show edit update destroy ]
+    before_action :authenticate_user!
    # GET /claim_resolutions or /claim_resolutions.json
     def index
       @claim_resolutions = ClaimResolution.all

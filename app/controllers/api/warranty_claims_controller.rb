@@ -2,7 +2,7 @@ class  Api::WarrantyClaimsController < Api::ApiController
     before_action :set_warranty_claim, only: %i[show  update destroy]
               #show all the warranty_claims in DB
             def index 
-                @warranty_claims=WarrantyClaim.all
+                @warranty_claims=current_user.userable.warranty_claims
                 if @warranty_claims
                     render json: @warranty_claims, status: 200 #ok
                     else
@@ -28,24 +28,26 @@ class  Api::WarrantyClaimsController < Api::ApiController
             end
           #used to display a particular record
             def show
-                if @warranty_claim
+
+                if current_user.userable.warranty_claims.include?(@warranty_claim)
                     render json: @warranty_claim , status:200 #ok
                   else
-                    render json:{message:"warranty_claim Not Found for Id#{params[:id]}"}, status:404 #not_found
+                    render json:{error: "Forbidden Access to Warranty Claim"}, status: 403#forbidden
                   end
             end
          
           #saves the changes to DB
             def update
-                if @warranty_claim    
+              if current_user.userable.warranty_claims.include?(@warranty_claim)&&current_user.customer?   
                     if(@warranty_claim.update(update_warranty_claim_params))
                         render json:@warranty_claim , status: 202#accepted
                     else
                         render json:{error: @warranty_claim.errors.full_messages}, status:422 #unprocessable_entity
                     end
                  else
-                   render json:{error: "No Warranty Claim Found with given Id#{params[:id]}"}, status:404 #not_found
+                  render json:{error: "Forbidden Access to  Modify Claim"}, status: 403#forbidden
                  end
+
             end
           #deletes a record from DB
             def destroy

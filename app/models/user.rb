@@ -5,6 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   belongs_to   :userable ,polymorphic: true ,dependent: :destroy
 
+
+
+  # Devise authentication 
+  def self.authenticate(email, password)
+    user = User.find_for_authentication(email: email)
+    user&.valid_password?(password) ? user : nil
+  end
+
   def seller?
     role=="Seller"
   end

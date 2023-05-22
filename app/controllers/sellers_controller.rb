@@ -1,5 +1,6 @@
 class SellersController < ApplicationController
    before_action :set_seller, only: %i[show edit update destroy]
+   before_action :authenticate_user!
       #show all the seller in DB
     def index 
         @sellers=Seller.all

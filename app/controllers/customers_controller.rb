@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
   #show all the customers in DB
+  
     def index 
         @customers=Customer.all
     end

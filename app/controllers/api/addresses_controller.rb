@@ -1,84 +1,107 @@
-class AddressesController < ApplicationController
-  before_action :set_address, only: %i[ show edit update destroy ]
+class Api::AddressesController < Api::ApiController
+  before_action :set_address, only: %i[ show  update destroy ]
 
   # GET /addresses or /addresses.json
   def index
     @addresses = Address.all
+    
+    if @addresses
+        render json: @addresses, status: 200 #ok
+        else
+         render json: {message: "No Addresses Found"}, status:204 #no_content
+        end
+
   end
 
   # GET /addresses/1 or /addresses/1.json
   def show
+    if @address
+      render json: @address, status:200 #ok
+    else
+      render json:{message:" Address Not Found for Id #{params[:id]}"}, status:404 #not_found
+    end
   end
 
-  # GET /addresses/new
-  def new
-    @address = Address.new
-  end
-
-  # GET /addresses/1/edit
-  def edit
-  end
 
   # POST /addresses or /addresses.json
   def create
-    @address = Address.new(address_params)
-
-    respond_to do |format|
-      @address.addressable_id=current_user.userable_id
-      @address.addressable_type=current_user.role
-      if @address.save
-        format.html { redirect_to address_url(@address), notice: "Address was successfully created." }
-        format.json { render :show, status: :created, location: @address }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @address.errors, status: :unprocessable_entity }
-      end
+    type=params[:address][:addressable_type]
+    @user
+    if type=="Seller"
+      @user=Seller.find_by(id: params[:address][:addressable_id])
+    elsif type=="Customer" 
+      @user=Customer.find_by(id: params[:address][:addressable_id] )
     end
+
+    if @user
+      @address=Address.new(address_params)
+         if(@address.save)
+             render json:@address , status: 201#created
+         else
+             render json:{error: @address.errors.full_messages},status:422 #unprocessable_entity
+         end
+     else
+         render json:{error: "No user Found with Given ID #{params[:address][:addresable_id]} and role #{params[:address][:addressable_type]}"}, status: 404#not_found
+     end
+
+
   end
 
   # PATCH/PUT /addresses/1 or /addresses/1.json
   def update
-    respond_to do |format|
-      @address.addressable_id=current_user.userable_id
-      @address.addressable_type=current_user.role
-      if @address.update(address_params)
-        format.html { redirect_to address_url(@address), notice: "Address was successfully updated." }
-        format.json { render :show, status: :ok, location: @address }
+    if @address
+      if(@address.update(address_params))
+        render json:@address , status: 202#accepted
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @address.errors, status: :unprocessable_entity }
+        render json:{error: @address.errors.full_messages}, status:422 #unprocessable_entity
       end
+    else
+      render json:{error: "No Address Found with given Id#{params[:id]}"}, status:404 #not_found
     end
   end
 
   # DELETE /addresses/1 or /addresses/1.json
   def destroy
-    @address.destroy
-
-    respond_to do |format|
-      format.html { redirect_to addresses_url, notice: "Address was successfully destroyed." }
-      format.json { head :no_content }
+    if @address
+      type=@address.addressable_type
+      if type=="Seller"
+        @user=Seller.find_by(primary_address_id: params[:id])
+      elsif type=="Customer" 
+        @user=Customer.find_by(primary_address_id: params[:id])
+      end
+      
+      if ! @user
+         if(@address.destroy)
+            render json:{ message: "Address Deleted successfully"},status:200 #ok
+         else
+            render json:{error: @address.errors.full_messages}, status:422#unprocessable_entity
+         end
+      else
+        render json:{error: "Address is a Primary address please change primary address to delete it "}, status: 422#unprocessable_entity
+      end 
+    else
+      render json:{error: "No Address Found with Given ID #{params[:id]}"}, status: 404#not_found
     end
   end
 
-  def primary_address
-    @addresss_id = params[:id]
-    current_user.userable.update(primary_address_id: @addresss_id)
-    if current_user.customer?
-      redirect_to cust_dashboard_path
-    elsif current_user.seller?
-      redirect_to seller_dashboard_path
-    end
-  end
+  # def primary_address
+  #   @addresss_id = params[:id]
+  #   current_user.userable.update(primary_address_id: @addresss_id)
+  #   if current_user.customer?
+  #     redirect_to cust_dashboard_path
+  #   elsif current_user.seller?
+  #     redirect_to seller_dashboard_path
+  #   end
+  # end
 
-  def change_primary_address
-    @addresses = Address.where(addressable_id: current_user.userable.id)
-  end
+  # def change_primary_address
+  #   @addresses = Address.where(addressable_id: current_user.userable.id)
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_address
-      @address = Address.find(params[:id])
+      @address = Address.find_by(id: params[:id])
     end
    private
     # Only allow a list of trusted parameters through.

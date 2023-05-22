@@ -23,7 +23,7 @@ class  Api::WarrantyClaimsController < Api::ApiController
                         render json:{error: @warranty_claim.errors.full_messages},status:422 #unprocessable_entity
                     end
                 else
-                    render json:{error: "No Invoice Found with Given ID #{params[:invoice_id]}"}, status: 404#not_found
+                    render json:{error: "No Invoice Found with Given ID #{params[:warranty_claim][:invoice_id]}"}, status: 404#not_found
                 end
             end
           #used to display a particular record
@@ -64,7 +64,7 @@ class  Api::WarrantyClaimsController < Api::ApiController
         
          private
             def set_warranty_claim
-                @warranty_claim=WarrantyClaim.find(params[:id])
+                @warranty_claim=WarrantyClaim.find_by(id: params[:id])
             end
             def warranty_claim_params
                 params.require( :warranty_claim).permit( :invoice_id,:problem_description)

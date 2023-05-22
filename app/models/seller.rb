@@ -1,7 +1,7 @@
 class Seller < ApplicationRecord
     has_and_belongs_to_many :customers ,join_table: :customers_sellers
-    has_many :products
-    has_many :addresses, as: :addressable
+    has_many :products , dependent: :destroy
+    has_many :addresses, as: :addressable, dependent: :destroy
     has_many :invoices, through: :products
     has_many :warranty_claims, through: :invoices
     validates :name , :email,:phone_no , presence: true

@@ -14,7 +14,7 @@ ActiveAdmin.register User do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-
+        
   index do
     column "User ID" , :id, sortable: :id do |i|
       link_to i.id , admin_user_path(i.id)

@@ -33,7 +33,7 @@ Rails.application.routes.draw do
     get "/customers/customer_invoices" , controller: :customers , action: :customer_invoices , as: :cutomer_invoices
     get "/sellers/seller_products" , controller: :sellers , action: :seller_products , as: :seller_products
     post "/invoice/generate" , controller: :invoices , action: :generate , as: :generate_invoice
-    get "/address/primary_address" , controller: :addresses , action: :primary_address , as: :primary_address
+    put "/addresses/primary_address" , controller: :addresses , action: :primary_address , as: :primary_address
     get "/address/change_primary_address" , controller: :addresses , action: :change_primary_address , as: :change_primary_address
     patch "/claim_resolutions/default_claim_resolution" ,controller: :claim_resolutions,action: :default_claim_resolution,as: :default_claim_resolution
  

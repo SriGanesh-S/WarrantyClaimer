@@ -13,8 +13,11 @@ class InvoicesController < ApplicationController
    def generate
     @invoice = Invoice.new(create_params)
     @customer =Customer.find_by(email: params[:invoice][:cust_email])
+    if @customer
     @product = Product.find(params[:invoice][:id])
     p "========="
+    p params[:invoice][:cust_email]
+    p "==========================="
     p @customer
     p @invoice
     p @product
@@ -26,6 +29,9 @@ class InvoicesController < ApplicationController
     else
         redirect_to new , alert: "Failed to generate invoice."
     end
+  else
+    flash[:notice]="Enter valid Customer mail " 
+  end 
    end
 
 

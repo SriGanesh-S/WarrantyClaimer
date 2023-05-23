@@ -10,6 +10,7 @@ class Customer < ApplicationRecord
     has_many :products , through: :invoices
     has_many :addresses, as: :addressable, dependent: :destroy
     has_many :warranty_claims , through: :invoices
+    has_many :claim_resolutions, through: :warranty_claims
     
 
 end

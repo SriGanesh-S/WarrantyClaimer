@@ -14,8 +14,10 @@ class  Api::WarrantyClaimsController < Api::ApiController
             def create
                 
                 invoice=Invoice.find_by(id: params[:warranty_claim][:invoice_id])
-               if invoice
+            
+                if current_user.userable.invoices.include?(invoice)&&current_user.customer?
                  @warranty_claim=WarrantyClaim.new(warranty_claim_params)
+                    
                     if(@warranty_claim.save)
                         set_claim_status 
                         render json:@warranty_claim , status: 201#created
@@ -23,7 +25,7 @@ class  Api::WarrantyClaimsController < Api::ApiController
                         render json:{error: @warranty_claim.errors.full_messages},status:422 #unprocessable_entity
                     end
                 else
-                    render json:{error: "No Invoice Found with Given ID #{params[:warranty_claim][:invoice_id]}"}, status: 404#not_found
+                    render json:{error: "Forbidden Access to create claim ,You can create claim only for products you purchased"}, status: 403#forbidden
                 end
             end
           #used to display a particular record
@@ -51,8 +53,8 @@ class  Api::WarrantyClaimsController < Api::ApiController
             end
           #deletes a record from DB
             def destroy
-               
-                if @warranty_claim
+              if current_user.userable.warranty_claims.include?(@warranty_claim) && current_user.customer? 
+                if  ["In Progress","Accepted"].include?(@warranty_claim.claim_resolution.status)
                     if(@warranty_claim.destroy)
                       render json:{ message: "warranty_claim Deleted successfully"},status:200 #ok
                     else
@@ -60,8 +62,11 @@ class  Api::WarrantyClaimsController < Api::ApiController
                     end
        
                  else
-                   render json:{error: "No Warranty Claim Found with Given ID #{params[:id]}"}, status: 404#not_found
+                   render json:{error: "You Cannot Delete the Claim Once it's Shipped"}, status: 403#forbidden
                  end
+              else
+                  render json:{error: "Forbidden Access to  Modify Claim"}, status: 403#forbidden
+              end
             end
         
          private

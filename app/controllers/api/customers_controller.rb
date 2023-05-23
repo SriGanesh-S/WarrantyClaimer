@@ -38,7 +38,7 @@ class Api::CustomersController < Api::ApiController
     def update
         @customer=Customer.find_by(id: params[:id])
         if @customer
-          if @customer.id==current_user.userable_id
+          if @customer.id==current_user.userable_id && current_user.customer?
             if(@customer.update(customer_params))
               render json:@customer , status:202
             else

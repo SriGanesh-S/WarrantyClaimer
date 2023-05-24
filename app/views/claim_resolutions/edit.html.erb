@@ -1,7 +1,35 @@
 <div class="col-lg-10" >
 <h1>Editing Claim Response</h1>
 
-<%= render 'form', claim_response: @claim_response %>
+<div class="col-lg-10" >
+<%= form_with(model: @claim_resolution) do |form| %>
+  <% if @claim_resolution.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(claim_resolution.errors.count, "error") %> prohibited this claim_resolution from being saved:</h2>
+
+      <ul>
+        <% @claim_resolution.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+<div class="form-group">
+     <%= form.label :status %>
+     <%= form.text_field :status,class:"form-control" %>
+</div>
+<div class="form-group">
+     <%= form.label :Description %>
+     <%= form.text_field :description ,class:"form-control"%>
+</div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+</div>
 
 <%= link_to 'Back', seller_dashboard_path %>
 </div>

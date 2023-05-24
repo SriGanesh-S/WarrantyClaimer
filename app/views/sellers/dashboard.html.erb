@@ -19,7 +19,7 @@
         <% @warranty_claims.each do |claim| %>
           <% status=ClaimResolution.find_by(warranty_claim_id: claim.id) %>
           <tr>
-           <%if status %>
+           <%if ["In Progress","Accepted","Shipped"].include?(status.status) %>
             <td><%= claim.id %></td>
             <td><%= claim.invoice.customer.name %></td>
             <td><%= claim.invoice.product.name %></td>

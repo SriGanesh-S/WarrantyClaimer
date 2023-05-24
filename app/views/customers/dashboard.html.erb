@@ -15,24 +15,29 @@
         </thead>
         <tbody>
          
-          <% @invoices.each do |invoice| %>
-           <% product=Product.find_by(id: invoice.product_id) %>
-             <%claim=WarrantyClaim.find_by(invoice_id: invoice.id) %>
-            <tr>
-              <td><%= product.name %></td>
-              <td><%= product.category %></td>
-              <td><%= invoice.purchase_date %></td>
-             <td>
-                <% if claim %>
-                   <%= link_to 'Track Status', claim_resolution_path(invoice.claim_resolution), class: 'btn btn-primary' %>
+         <% @invoices.each do |invoice| %>
+  <% product = Product.find_by(id: invoice.product_id) %>
+  <% claim = WarrantyClaim.find_by(invoice_id: invoice.id) %>
+  <% resolution = invoice.claim_resolution %>
+  <tr>
+    <td><%= product.name %></td>
+    <td><%= product.category %></td>
+    <td><%= invoice.purchase_date %></td>
+    <td>
+      <% if resolution.present? %>
+        <% if ["Accepted", "In Progress", "Shipped"].include?(resolution.status) %>
+          <%= link_to 'Track Status', claim_resolution_path(resolution), class: 'btn btn-primary' %>
+        <% else %>
+          <%= link_to "Claim #{resolution.status}", claim_resolution_path(resolution), class: 'btn btn-primary' %>
+         <%end%>
+        <% else %>
+          <%= link_to 'Claim Warranty', new_warranty_claim_path(id: invoice.id), class: 'btn btn-success' ,notice: 'Please note that the shipment will be delivered to your primary address.'%>
+        <% end %>
 
-            <% else %>
-                  <%= link_to 'Claim Warranty', new_warranty_claim_path(id: invoice.id), class: 'btn btn-primary' %>
-            <% end %>
                
              
-               </td>
-            </tr>
+    </td>
+    </tr>
           <% end %>
         </tbody>
       </table>

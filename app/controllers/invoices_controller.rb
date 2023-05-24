@@ -1,8 +1,10 @@
 class InvoicesController < ApplicationController
     before_action :authenticate_user!
+    before_action :authorize_seller, only: %i[ new generate ] 
+    
    def new
     @invoice=Invoice.new
-    @product = Product.find(params[:id])
+    @product = Product.find_by(id: params[:id])
     p "==============="
     p  @product
 
@@ -14,7 +16,11 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new(create_params)
     @customer =Customer.find_by(email: params[:invoice][:cust_email])
     if @customer
-    @product = Product.find(params[:invoice][:id])
+    @product = Product.find_by(id: params[:invoice][:id])
+    unless current_user.userable.products.include?(@product)
+      flash[:notice] = "You are not authorized to perform this action."
+      redirect_to root_path
+    end
     p "========="
     p params[:invoice][:cust_email]
     p "==========================="
@@ -39,5 +45,13 @@ class InvoicesController < ApplicationController
    def create_params
         params.require( :invoice).permit(:cust_email , :purchase_date)
    end
+
+   def authorize_seller
+    unless current_user.seller?
+      flash[:notice] = "You are not authorized to perform this action."
+      redirect_to root_path
+    end
+  end
+  
 end
       

@@ -3,11 +3,17 @@ class AddressesController < ApplicationController
   before_action :authenticate_user!
   # GET /addresses or /addresses.json
   def index
-    @addresses = Address.all
+
+    @addresses = current_user.userable.addresses
   end
 
   # GET /addresses/1 or /addresses/1.json
   def show
+    if !current_user.userable.addresses.include?(@address)
+      flash[:notice] = "OOPs!You Don't Have access to the Address."
+      redirect_to root_path
+    end
+
   end
 
   # GET /addresses/new
@@ -17,6 +23,10 @@ class AddressesController < ApplicationController
 
   # GET /addresses/1/edit
   def edit
+    if !current_user.userable.addresses.include?(@address)
+      flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
+      redirect_to root_path
+    end
   end
 
   # POST /addresses or /addresses.json
@@ -38,7 +48,13 @@ class AddressesController < ApplicationController
 
   # PATCH/PUT /addresses/1 or /addresses/1.json
   def update
-    respond_to do |format|
+
+    if !current_user.userable.addresses.include?(@address)
+      flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
+      redirect_to root_path
+    else
+
+     respond_to do |format|
       @address.addressable_id=current_user.userable_id
       @address.addressable_type=current_user.role
       if @address.update(address_params)
@@ -48,13 +64,15 @@ class AddressesController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @address.errors, status: :unprocessable_entity }
       end
+     end
+
     end
   end
 
   # DELETE /addresses/1 or /addresses/1.json
   def destroy
     @address.destroy
-
+   
     respond_to do |format|
       format.html { redirect_to addresses_url, notice: "Address was successfully destroyed." }
       format.json { head :no_content }
@@ -62,13 +80,18 @@ class AddressesController < ApplicationController
   end
 
   def primary_address
-    @addresss_id = params[:id]
-    current_user.userable.update(primary_address_id: @addresss_id)
-    if current_user.customer?
-      redirect_to cust_dashboard_path
-    elsif current_user.seller?
-      redirect_to seller_dashboard_path
-    end
+    @address = Address.find_by(id: params[:id])
+    if !current_user.userable.addresses.include?(@address)
+      flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
+      redirect_to root_path
+    else
+     current_user.userable.update(primary_address_id: @address.id)
+     if current_user.customer?
+        redirect_to cust_dashboard_path
+      elsif current_user.seller?
+        redirect_to seller_dashboard_path
+      end
+   end
   end
 
   def change_primary_address
@@ -78,7 +101,7 @@ class AddressesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_address
-      @address = Address.find(params[:id])
+      @address = Address.find_by(id: params[:id])
     end
    private
     # Only allow a list of trusted parameters through.

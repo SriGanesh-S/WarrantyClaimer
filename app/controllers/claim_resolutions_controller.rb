@@ -1,13 +1,20 @@
 class ClaimResolutionsController < ApplicationController
     before_action :set_claim_resolution, only: %i[ show edit update destroy ]
-    before_action :authenticate_user!
+    before_action :authenticate_user! 
+    before_action :authorize_seller, only: %i[ new edit destroy ]
    # GET /claim_resolutions or /claim_resolutions.json
     def index
-      @claim_resolutions = ClaimResolution.all
+
+      @claim_resolutions = current_user.userable.claim_resolutions
     end
   
     # GET /claim_resolutions/1 or /claim_resolutions/1.json
     def show
+      unless current_user.userable.claim_resolutions.include?(@claim_resolution)
+        
+        redirect_to root_path
+        flash[:notice] = "You are not authorized to perform this action."
+      end
     end
   
     # GET /claim_resolutions/new
@@ -17,10 +24,19 @@ class ClaimResolutionsController < ApplicationController
   
     # GET /claim_resolutions/1/edit
     def edit
+      unless current_user.userable.claim_resolutions.include?(@claim_resolution)
+        flash[:notice] = "You are not authorized to perform this action."
+        redirect_to root_path
+      end
     end
   
     # POST /claim_resolutions or /claim_resolutions.json
     def create
+       warranty_claim=WarrantyClaim.find_by(id: params[:warranty_claim_id])
+      unless current_user.userable.warranty_claims.include?(warranty_claim)
+        flash[:notice] = "You are not authorized to perform this action."
+        redirect_to root_path
+      end
       @claim_resolution = ClaimResolution.new(claim_resolution_params)
   
       respond_to do |format|
@@ -36,6 +52,7 @@ class ClaimResolutionsController < ApplicationController
   
     # PATCH/PUT /claim_resolutions/1 or /claim_resolutions/1.json
     def update
+     
       respond_to do |format|
         if @claim_resolution.update(claim_resolution_params)
           format.html { redirect_to claim_resolution_url(@claim_resolution), notice: "Claim status was successfully updated." }
@@ -60,7 +77,7 @@ class ClaimResolutionsController < ApplicationController
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_claim_resolution
-        @claim_resolution = ClaimResolution.find(params[:id])
+        @claim_resolution = ClaimResolution.find_by(id:params[:id])
       end
   
       # Only allow a list of trusted parameters through.
@@ -68,6 +85,12 @@ class ClaimResolutionsController < ApplicationController
         params.fetch(:claim_resolution, {  }).permit( :warranty_claim_id , :status , :description )
       end
 
+      def authorize_seller
+        unless current_user.seller?
+          flash[:notice] = "You are not authorized to perform this action."
+          redirect_to root_path
+        end
+      end
 
 
 end

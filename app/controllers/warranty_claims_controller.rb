@@ -2,8 +2,9 @@ class WarrantyClaimsController < ApplicationController
     before_action :set_warranty_claim, only: %i[show edit update destroy]
               #show all the warranty_claims in DB
               before_action :authenticate_user!
+              before_action :authorize_customer, only: %i[ new edit destroy ]
             def index 
-                @warranty_claims=WarrantyClaim.all
+                @warranty_claims=current_user.warranty_claims
             end
           #used to instantiate a warranty_claim
             def new
@@ -14,11 +15,16 @@ class WarrantyClaimsController < ApplicationController
             def create
                 @warranty_claim=WarrantyClaim.new(warranty_claim_params)
                 @warranty_claim.invoice_id=params[:warranty_claim][:id]
-                p "============="
-                p @warranty_claim
+                invoice=Invoice.find_by(id: @warranty_claim.invoice_id)
+
+                unless current_user.userable.invoices.include?(invoice)
+                    flash[:notice] = "You are not authorized to perform this action."
+                    redirect_to root_path
+                end
+
                 if(@warranty_claim.save)
                     set_claim_status 
-                    redirect_to primary_address_path
+                    redirect_to change_primary_address_path
                 else
                     render :new
                 end
@@ -26,13 +32,21 @@ class WarrantyClaimsController < ApplicationController
             end
           #used to display a particular record
             def show
+                unless current_user.userable.warranty_claims.include?(@warranty_claim)
+                    flash[:notice] = "You are not authorized to perform this action."
+                    redirect_to root_path
+                end
             end
           #used to fetch the record to edit
             def edit
+                unless current_user.userable.warranty_claims.include?(@warranty_claim)
+                    flash[:notice] = "You are not authorized to perform this action."
+                    redirect_to root_path
+                end
             end
           #saves the changes to DB
             def update
-                 @warranty_claim.customer_id 
+                
 
                 if(@warranty_claim.update(warranty_claim_params))
                     redirect_to warranty_claims_path
@@ -42,17 +56,25 @@ class WarrantyClaimsController < ApplicationController
             end
           #deletes a record from DB
             def destroy
-               
-                if(@warranty_claim.destroy)
-                    redirect_to warranty_claims_path
+                unless current_user.userable.warranty_claims.include?(@warranty_claim)
+                    flash[:notice] = "You are not authorized to perform this action."
+                    redirect_to root_path
+                end
+                if  ["In Progress","Accepted"].include?(@warranty_claim.claim_resolution.status) 
+                    if(@warranty_claim.destroy)
+                        redirect_to warranty_claims_path
+                     else
+                        render :edit 
+                     end
                 else
-                    render :edit 
+                    flash[:notice] = "You cannot Delete claim once It's Shipped or Closed."
+                    redirect_to cust_dashboard_path
                 end
             end
         
          private
             def set_warranty_claim
-                @warranty_claim=WarrantyClaim.find(params[:id])
+                @warranty_claim=WarrantyClaim.find_by(id:  params[:id])
             end
             def warranty_claim_params
                 params.require( :warranty_claim).permit( :problem_description)
@@ -65,6 +87,13 @@ class WarrantyClaimsController < ApplicationController
                 @claim_status.save
 
             end
+
+            def authorize_customer
+                unless current_user.customer?
+                  flash[:notice] = "You are not authorized to perform this action."
+                  redirect_to root_path
+                end
+              end
         
    end
       

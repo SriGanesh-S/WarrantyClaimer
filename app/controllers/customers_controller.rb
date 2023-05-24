@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
   #show all the customers in DB
+  before_action :authorize_customer, only: %i[  edit destroy ]
   
     def index 
         @customers=Customer.all
@@ -21,15 +22,24 @@ class CustomersController < ApplicationController
     end
   #used to display aparticular record
     def show
-        @customer=Customer.find(params[:id])
+        @customer=Customer.find_by(id: params[:id])
+        unless current_user.userable.include?(@customer)
+            flash[:notice] = "You are not authorized to perform this action."
+            redirect_to root_path
+        end
     end
   #used to fetch the record to edit
     def edit
-        @customer=Customer.find(params[:id])
+        @customer=Customer.find_by(id: params[:id])
+        unless current_user.userable.include?(@customer)
+            flash[:notice] = "You are not authorized to perform this action."
+            redirect_to root_path
+        end
     end
   #saves the changes to DB
     def update
-        @customer=Customer.find(params[:id])
+        
+        @customer=Customer.find_by(id: params[:id])
         if(@customer.update(customer_params))
             redirect_to cust_dashboard_path
         else
@@ -38,9 +48,9 @@ class CustomersController < ApplicationController
     end
   #deletes a record from DB
     def destroy
-        @customer=Customer.find(params[:id])
+        @custome=current_user.userable
         if(@customer.destroy)
-            redirect_to customers_path
+            redirect_to root_path
         else
             render :edit 
         end
@@ -55,5 +65,12 @@ class CustomersController < ApplicationController
     def customer_params
         params.require( :customer).permit(:name, :email,:age,:gender,:phone_no)
     end
+
+    def authorize_customer
+        unless current_user.customer?
+          flash[:notice] = "You are not authorized to perform this action."
+          redirect_to root_path
+        end
+      end
 
 end

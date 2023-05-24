@@ -6,9 +6,10 @@
     <h2> Your Addresses </h2>
     <br><br>
    <%if @addresses%>
+    <div class="card bg-light mb-3" style="max-width: 18rem;">
     <%@addresses.each do |i|%>
         
-            <div class="card bg-light mb-3" style="max-width: 18rem;">
+            
           <div class="card-header">Address <%=@addresses.find_index(i)+1%></div>
           <div class="card-body">
           <h6 class="card-title"><%=" Door No : #{i.door_no}"%></h6>
@@ -23,9 +24,10 @@
             <% else %>
                   <button type="button" class="btn btn-secondary btn-sm" disabled>Primary Address</button>
             <% end %>
+           </div>
          <%end%>
-  </div>
-</div>
+   </div>
+
             
         
     <%end%>

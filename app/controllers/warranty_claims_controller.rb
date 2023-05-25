@@ -4,7 +4,7 @@ class WarrantyClaimsController < ApplicationController
               before_action :authenticate_user!
               before_action :authorize_customer, only: %i[ new edit destroy ]
             def index 
-                @warranty_claims=current_user.warranty_claims
+                @warranty_claims=current_user.userable.warranty_claims
             end
           #used to instantiate a warranty_claim
             def new

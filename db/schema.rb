@@ -129,9 +129,9 @@ ActiveRecord::Schema.define(version: 2023_05_22_083032) do
 
   create_table "sellers", force: :cascade do |t|
     t.string "name"
+    t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "email"
     t.string "organisation_name"
     t.string "designation"
     t.bigint "phone_no"

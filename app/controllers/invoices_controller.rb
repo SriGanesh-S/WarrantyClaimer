@@ -5,8 +5,8 @@ class InvoicesController < ApplicationController
    def new
     @invoice=Invoice.new
     @product = Product.find_by(id: params[:id])
-    p "==============="
-    p  @product
+    # p "==============="
+    # p  @product
 
    end
 
@@ -15,19 +15,24 @@ class InvoicesController < ApplicationController
    def generate
     @invoice = Invoice.new(create_params)
     @customer =Customer.find_by(email: params[:invoice][:cust_email])
-    if @customer
     @product = Product.find_by(id: params[:invoice][:id])
-    unless current_user.userable.products.include?(@product)
+    unless (@product!=nil && current_user.userable.products.include?(@product))
+      # p "\n \n product is nil\n \n \n "
       flash[:notice] = "You are not authorized to perform this action."
-      redirect_to root_path
+      render :new
+      return
     end
-    p "========="
-    p params[:invoice][:cust_email]
-    p "==========================="
-    p @customer
-    p @invoice
-    p @product
-    p "========="
+    if @customer
+    
+    # p "========="
+    # p params[:invoice][:cust_email]
+    # p "==========================="
+    # p @customer
+    # p @invoice
+    # p @product
+    # p "========="
+
+    
     @invoice.customer_id=@customer.id
     @invoice.product_id=@product.id
     if @invoice.save
@@ -47,7 +52,7 @@ class InvoicesController < ApplicationController
    end
 
    def authorize_seller
-    unless current_user.seller?
+    unless (user_signed_in? && current_user.seller?)
       flash[:notice] = "You are not authorized to perform this action."
       redirect_to root_path
     end

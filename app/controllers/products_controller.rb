@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
              @product.seller_id=current_user.userable_id
              if(@product.save)
                  flash[:notice]="Product created successfully: "
-                 redirect_to seller_dashboard_path
+                 render :index
              else
                  render :new
              end
@@ -40,7 +40,7 @@ class ProductsController < ApplicationController
          def update
               @product.seller_id = current_user.userable_id
              if(@product.update(product_params))
-                 redirect_to products_path
+                 render :show
              else
                  render :edit 
              end
@@ -71,7 +71,7 @@ class ProductsController < ApplicationController
          end
 
          def authorize_seller
-          unless current_user.seller?
+          unless (user_signed_in? && current_user.seller?)
             flash[:notice] = "You are not authorized to perform this action."
             redirect_to root_path
           end

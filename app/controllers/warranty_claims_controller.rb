@@ -24,7 +24,7 @@ class WarrantyClaimsController < ApplicationController
 
                 if(@warranty_claim.save)
                     set_claim_status 
-                    redirect_to change_primary_address_path
+                    render :index
                 else
                     render :new
                 end
@@ -35,6 +35,7 @@ class WarrantyClaimsController < ApplicationController
                 unless current_user.userable.warranty_claims.include?(@warranty_claim)
                     flash[:notice] = "You are not authorized to perform this action."
                     redirect_to root_path
+                    return
                 end
             end
           #used to fetch the record to edit
@@ -42,6 +43,7 @@ class WarrantyClaimsController < ApplicationController
                 unless current_user.userable.warranty_claims.include?(@warranty_claim)
                     flash[:notice] = "You are not authorized to perform this action."
                     redirect_to root_path
+                    return
                 end
             end
           #saves the changes to DB
@@ -49,7 +51,7 @@ class WarrantyClaimsController < ApplicationController
                 
 
                 if(@warranty_claim.update(warranty_claim_params))
-                    redirect_to warranty_claims_path
+                    render :show
                 else
                     render :edit 
                 end
@@ -89,7 +91,7 @@ class WarrantyClaimsController < ApplicationController
             end
 
             def authorize_customer
-                unless current_user.customer?
+                unless (user_signed_in? && current_user.customer?)
                   flash[:notice] = "You are not authorized to perform this action."
                   redirect_to root_path
                 end

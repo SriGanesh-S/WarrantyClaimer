@@ -16,6 +16,7 @@ module WarrantyClaimer
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
+    config.api_only = false
     config.time_zone = "Asia/Kolkata"
     # config.eager_load_paths << Rails.root.join("extras")
   end

@@ -1,7 +1,7 @@
 class SellersController < ApplicationController
    before_action :set_seller, only: %i[show edit update destroy]
-   before_action :authenticate_user!
-   before_action :authorize_seller, only: %i[  edit destroy ]
+   #before_action :authenticate_user!
+   before_action :authorize_seller, only: %i[  edit destroy dashboard]
       #show all the seller in DB
     def index 
         @sellers=Seller.all
@@ -22,14 +22,14 @@ class SellersController < ApplicationController
     end
   #used to display a particular record
     def show
-      unless current_user.userable.include?(@seller)
+      unless current_user.userable == (@seller)
         flash[:notice] = "You are not authorized to perform this action."
         redirect_to root_path
       end
     end
   #used to fetch the record to edit
     def edit
-      unless current_user.userable.include?(@seller)
+      unless current_user.userable == (@seller)
         flash[:notice] = "You are not authorized to perform this action."
         redirect_to root_path
       end
@@ -37,14 +37,14 @@ class SellersController < ApplicationController
   #saves the changes to DB
     def update
         if(@seller.update(seller_params))
-            redirect_to seller_dashboard_path
+            render :show
         else
             render :edit 
         end
     end
   #deletes a record from DB
     def destroy
-      unless current_user.userable.include?(@seller)
+      unless current_user.userable == (@seller)
         flash[:notice] = "You are not authorized to perform this action."
         redirect_to root_path
       end
@@ -63,8 +63,8 @@ class SellersController < ApplicationController
 
       
 
-        p"==========="
-        p @warranty_claims
+        # p"==========="
+        # p @warranty_claims
        
        
       
@@ -75,14 +75,14 @@ class SellersController < ApplicationController
 
  private
     def set_seller
-        @seller=Seller.find_id(id: params[:id])
+        @seller=Seller.find_by(id: params[:id])
     end
     def seller_params
         params.require( :seller).permit(:name, :email,:organisation_name,:designation,:description)
     end
 
     def authorize_seller
-      unless current_user.seller?
+      unless (user_signed_in? && current_user.seller?)
         flash[:notice] = "You are not authorized to perform this action."
         redirect_to root_path
       end

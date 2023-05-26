@@ -37,6 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   userable.name = params[:details][:name]
   userable.phone_no=params[:details][:phone_no]
   userable.save
+
   p "=========XXXXXZ=========="
   p userable
   p "==================="
@@ -54,7 +55,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @address.addressable_id=userable.id
       @address.addressable_type=params[:user][:role].camelcase
       @address.phone =userable.phone_no
-     p @address.save
+      p "++++++++++++++++++++++++++++++" 
+      p @address.save
     
       userable.primary_address_id= @address.id
       p userable.save
@@ -149,7 +151,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def address_params
     params.require(:address).permit(:door_no , :street , :district , :state , :pin_code)
   end
-
+  private
   def userable_params 
     params.require(:user).permit( :role)
   end

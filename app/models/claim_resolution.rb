@@ -7,4 +7,12 @@ class ClaimResolution < ApplicationRecord
   scope :resolved , -> { ClaimResolution.where(status:  ["Accepted","In Progress","Shipped"]) }
   scope :pending , -> { ClaimResolution.where(status:  ["Rejected","Closed"]) }
 
+
+  before_create :set_resolution_description
+
+
+    
+  def set_resolution_description 
+      self.description = "Our Team will Validate your claim"
+  end
 end

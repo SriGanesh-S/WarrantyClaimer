@@ -103,87 +103,87 @@ RSpec.describe ClaimResolutionsController, type: :controller do
 
     end
 
-    # describe "post Create" do
+    describe "post Create" do
 
-    #     context "when claim is not valid" do
-    #         it "render new" do
-    #             sign_in user_seller
-    #             post :create , params:{claim_resolution:{warranty_claim_id :warranty_claim.id , status:"", description:"" }} 
-    #             expect(response).to render_template :new
+        context "when claim resolution is not valid" do
+            it "render new" do
+                sign_in user_seller
+                post :create , params:{claim_resolution:{warranty_claim_id: claim_resolution.warranty_claim.id , status:"", description:"" }} 
+                expect(response).to render_template :new
 
-    #         end
-    #     end
-    #     context "when claim is valid" do
-    #         it "render index " do
-    #             sign_in user_seller
-    #             post :create , params:{claim_resolution:{warranty_claim_id :warranty_claim.id , status:claim_resolution.status, description:claim_resolution.description }} 
-    #             expect(response).to render_template :index
-    #         end
+            end
+        end
+        context "when claim is valid" do
+            it "render index " do
+                sign_in user_seller
+                post :create , params:{claim_resolution:{warranty_claim_id: warranty_claim.id , status:claim_resolution.status, description:claim_resolution.description }} 
+                expect(response).to render_template :index
+            end
 
-    #     end
+        end
 
-    # end
+    end
 
 
-    # describe 'PATCH update' do
-    #     context 'when customer updates claim with invalid parameters' do 
-    #         it  'render  Edit' do
-    #             sign_in  user_customer
-    #             patch :update , params:{warranty_claim:{ problem_description: "" },id:warranty_claim.id } 
-    #             expect(response).to render_template :edit
-    #         end
+    describe 'PATCH update' do
+        context 'when seller updates claim resolution with invalid parameters' do 
+            it  'render  Edit' do
+                sign_in  user_seller
+                patch :update , params:{claim_resolution:{ description: "",warranty_claim_id: warranty_claim.id  }, id: claim_resolution.id} 
+                expect(response).to render_template :edit
+            end
 
-    #     end
+        end
     
-    #     context 'when customer updates claim  with valid parameters' do 
-    #         it  'render  Show ' do
-    #             sign_in  user_seller
-    #             patch :update , params:{warranty_claim:{ problem_description: "This is the updated problem description " },id: warranty_claim.id} 
-    #             expect(response).to render_template :show
-    #         end
+        context 'when seller updates claim  with valid parameters' do 
+            it  'render  Show ' do
+                sign_in  user_seller
+                patch :update , params:{claim_resolution:{ description: "This is the updated description ", status: "Accepted" }, id: claim_resolution.id} 
+                expect(response).to redirect_to claim_resolution_url(claim_resolution)
+            end
 
-    #     end
+        end
 
-    # end
+    end
 
 
 
-    # describe 'PUT edit' do
-    #     context 'when user not signed in' do 
-    #         it  'redirect to root path' do
-    #             put :edit ,params: { id: warranty_claim.id }
-    #             expect(response).to redirect_to(new_user_session_path)
-    #         end
+    describe 'PUT edit' do
+        context 'when user not signed in' do 
+            it  'redirect to root path' do
+                put :edit ,params: { id: claim_resolution.id }
+                expect(response).to redirect_to(new_user_session_path)
+            end
 
-    #     end
+        end
 
-    #     context 'when user signed in as seller' do 
-    #         it  'redirect to root path' do
-    #             sign_in user_seller
-    #             put :edit ,params: { id: warranty_claim.id }
-    #             expect(response).to redirect_to(root_path)
-    #         end
+        context 'when user signed in as customer' do 
+            it  'redirect to root path' do
+                sign_in user_customer
+                put :edit ,params: { id: claim_resolution.id }
+                expect(response).to redirect_to(root_path)
+            end
 
-    #     end
+        end
     
-    #     context 'when customer is signed in and edit his claim' do 
-    #         it  'render edit page' do
-    #             sign_in  user_customer
-    #             put :edit ,params: {id: warranty_claim.id}
-    #             expect(response).to render_template :edit
-    #         end
+        context 'when seller is signed in and edit his claim resolutions' do 
+            it  'render edit page' do
+                sign_in  user_seller
+                put :edit ,params: {id: claim_resolution.id}
+                expect(response).to render_template :edit
+            end
 
-    #     end
-    #     context 'when customer is signed in and try to edit other\'s claims' do 
-    #         it  'render root page' do
-    #             sign_in  user_customer
-    #             put :edit ,params: {id:  warranty_claim.id+1 }
-    #             expect(response).to redirect_to(root_path)
-    #         end
+        end
+        context 'when customer is signed in and try to edit other\'s claims' do 
+            it  'render root page' do
+                sign_in  user_seller
+                put :edit ,params: {id:  claim_resolution.id+1 }
+                expect(response).to redirect_to(root_path)
+            end
 
-    #     end
+        end
 
-    # end
+    end
 
    
       

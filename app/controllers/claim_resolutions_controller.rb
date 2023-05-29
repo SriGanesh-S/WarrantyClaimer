@@ -34,7 +34,7 @@ class ClaimResolutionsController < ApplicationController
   
     # POST /claim_resolutions or /claim_resolutions.json
     def create
-       warranty_claim=WarrantyClaim.find_by(id: params[:warranty_claim_id])
+       warranty_claim=WarrantyClaim.find_by(id: params[:claim_resolution][:warranty_claim_id])
       unless current_user.userable.warranty_claims.include?(warranty_claim)
         flash[:notice] = "You are not authorized to perform this action."
         redirect_to root_path
@@ -44,7 +44,7 @@ class ClaimResolutionsController < ApplicationController
   
       respond_to do |format|
         if @claim_resolution.save
-          format.html { redirect_to claim_resolution_url(@claim_resolution), notice: "Claim status was successfully created." }
+          format.html { render :index, notice: "Claim status was successfully created." }
           format.json { render :show, status: :created, location: claim_resolution }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -55,7 +55,6 @@ class ClaimResolutionsController < ApplicationController
   
     # PATCH/PUT /claim_resolutions/1 or /claim_resolutions/1.json
     def update
-     
       respond_to do |format|
         if @claim_resolution.update(claim_resolution_params)
           format.html { redirect_to claim_resolution_url(@claim_resolution), notice: "Claim status was successfully updated." }
@@ -80,12 +79,12 @@ class ClaimResolutionsController < ApplicationController
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_claim_resolution
-        @claim_resolution = ClaimResolution.find_by(id:params[:id])
+        @claim_resolution = ClaimResolution.find_by(id: params[:id])
       end
   
       # Only allow a list of trusted parameters through.
       def claim_resolution_params
-        params.fetch(:claim_resolution, {  }).permit( :warranty_claim_id , :status , :description )
+        params.require(:claim_resolution).permit( :warranty_claim_id , :status , :description )
       end
 
       def authorize_seller

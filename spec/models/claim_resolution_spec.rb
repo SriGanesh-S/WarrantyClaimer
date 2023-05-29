@@ -70,5 +70,22 @@ RSpec.describe ClaimResolution, type: :model do
     end
 
   end
+
+
+  describe "callback" do
+
+   
+    context "set_resolution_description" do
+      let(:warranty_claim) {create(:warranty_claim)}
+      let(:claim_resolution ) {build(:claim_resolution , warranty_claim: warranty_claim)}
+      it "Assigns default description" do
+        claim_resolution.set_resolution_description
+        expect(claim_resolution.description).to eq("Our Team will Validate your claim")
+      end
+    end
+
+
+
+end
   
 end

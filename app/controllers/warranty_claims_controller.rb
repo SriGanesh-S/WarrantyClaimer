@@ -85,7 +85,6 @@ class WarrantyClaimsController < ApplicationController
                 @claim_status=ClaimResolution.new
                 @claim_status.warranty_claim_id=@warranty_claim.id
                 @claim_status.status="In Progress"
-                @claim_status.description="Our Team will Validate your claim"
                 @claim_status.save
 
             end

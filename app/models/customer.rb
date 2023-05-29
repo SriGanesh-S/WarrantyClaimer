@@ -12,6 +12,7 @@ class Customer < ApplicationRecord
     has_and_belongs_to_many :sellers ,join_table: :customers_sellers
     has_many :invoices , dependent: :destroy
     has_many :addresses, as: :addressable, dependent: :destroy
+    has_many :products , through: :invoices
     has_many :warranty_claims , through: :invoices
     has_many :claim_resolutions, through: :warranty_claims
     has_one :user, as: :userable

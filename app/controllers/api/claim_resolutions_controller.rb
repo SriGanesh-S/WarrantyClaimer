@@ -13,8 +13,8 @@ class Api::ClaimResolutionsController< Api::ApiController
     # GET /claim_resolutions/1 or /claim_resolutions/1.json
     def show
 
-      if current_user.userable.claim_resolutions.include?(claim_resolution)
-        render json: claim_resolution , status:200 #ok
+      if current_user.userable.claim_resolutions.include?(@claim_resolution)
+        render json: @claim_resolution , status:200 #ok
      else
       render json:{message:"Forbidden Access to the profile"}, status:403 #forbidden
      end
@@ -40,11 +40,11 @@ class Api::ClaimResolutionsController< Api::ApiController
   
     # PATCH/PUT /claim_resolutions/1 or /claim_resolutions/1.json
     def update
-      if current_user.seller? && current_user.userable.claim_resolutions.include?(claim_resolution)
-        if(claim_resolution.update(claim_resolution_params))
-           render json:claim_resolution, status: 202#accepted
+      if current_user.seller? && current_user.userable.claim_resolutions.include?(@claim_resolution)
+        if(@claim_resolution.update(claim_resolution_params))
+           render json:@claim_resolution, status: 202#accepted
         else
-           render json:{error: claim_resolution.errors.full_messages}, status:422 #unprocessable_entity
+           render json:{error: @claim_resolution.errors.full_messages}, status:422 #unprocessable_entity
          end
       else
         render json:{message:"Forbidden Access to update the Claim Resolution"}, status:403 #forbidden
@@ -54,11 +54,11 @@ class Api::ClaimResolutionsController< Api::ApiController
   
     # DELETE /claim_resolutions/1 or /claim_resolutions/1.json
     def destroy
-      if current_user.seller? && current_user.userable.claim_resolutions.include?( claim_resolution)
-        if claim_resolution.destroy
+      if current_user.seller? && current_user.userable.claim_resolutions.include?( @claim_resolution)
+        if @claim_resolution.destroy
           render json:{ message: "Claim Resolution Deleted successfully"},status:200 #ok
         else
-          render json:{error: claim_resolution.errors.full_messages}, status:422#unprocessable_entity
+          render json:{error: @claim_resolution.errors.full_messages}, status:422#unprocessable_entity
         end
 
       else
@@ -84,7 +84,7 @@ class Api::ClaimResolutionsController< Api::ApiController
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_claim_resolution
-        claim_resolution = ClaimResolution.find_by(id: params[:id])
+        @claim_resolution = ClaimResolution.find_by(id: params[:id])
       end
   
       # Only allow a list of trusted parameters through.

@@ -12,6 +12,7 @@ class AddressesController < ApplicationController
     if !current_user.userable.addresses.include?(@address)
       flash[:notice] = "OOPs!You Don't Have access to the Address."
       redirect_to root_path
+      return 
     end
 
   end
@@ -26,6 +27,7 @@ class AddressesController < ApplicationController
     if !current_user.userable.addresses.include?(@address)
       flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
       redirect_to root_path
+      return
     end
   end
 
@@ -37,7 +39,7 @@ class AddressesController < ApplicationController
       @address.addressable_id=current_user.userable_id
       @address.addressable_type=current_user.role
       if @address.save
-        format.html { redirect_to address_url(@address), notice: "Address was successfully created." }
+        format.html { render :show, notice: "Address was successfully created." }
         format.json { render :show, status: :created, location: @address }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -81,9 +83,10 @@ class AddressesController < ApplicationController
 
   def primary_address
     @address = Address.find_by(id: params[:id])
-    if !current_user.userable.addresses.include?(@address)
+    if  !@address && !current_user.userable.addresses.include?(@address)
       flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
       redirect_to root_path
+      return
     else
      current_user.userable.update(primary_address_id: @address.id)
      if current_user.customer?

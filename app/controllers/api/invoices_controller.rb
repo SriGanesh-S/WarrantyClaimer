@@ -30,19 +30,19 @@ class Api::InvoicesController < Api::ApiController
   end  
   
  def show
-     if current_user.userable.invoices.include?(invoice)
-        render json: invoice , status:200 #ok
+     if current_user.userable.invoices.include?(@invoice)
+        render json: @invoice , status:200 #ok
      else
         render json:{message:"Forbidden Access to view the invoice"}, status:403 #forbidden
      end  
  end
               
 def update
-    if current_user.seller?  && current_user.userable.invoices.include?(invoice)
-        if(invoice.update(create_params))
-           render json:invoice , status: 202#accepted
+    if current_user.seller?  && current_user.userable.invoices.include?(@invoice)
+        if(@invoice.update(create_params))
+           render json:@invoice , status: 202#accepted
         else
-           render json:{error: invoice.errors.full_messages}, status:422 #unprocessable_entity
+           render json:{error: @invoice.errors.full_messages}, status:422 #unprocessable_entity
          end
      else
         render json:{message:"Forbidden Access to update the Invoice"}, status:403 #forbidden
@@ -50,11 +50,11 @@ def update
 end
  def destroy
                
-         if current_user.customer? && current_user.userable.invoices.include?(invoice)
-             if(invoice.destroy)
+         if current_user.customer? && current_user.userable.invoices.include?(@invoice)
+             if(@invoice.destroy)
                 render json:{ message: "Invoice Deleted successfully"},status:200 #ok
              else
-                render json:{error: invoice.errors.full_messages}, status:422#unprocessable_entity
+                render json:{error: @invoice.errors.full_messages}, status:422#unprocessable_entity
             end
        
         else
@@ -71,7 +71,7 @@ end
    end
 
    def set_invoice
-     invoice=Invoice.find_by(id: params[:id])
+     @invoice=Invoice.find_by(id: params[:id])
     end
    
 

@@ -15,8 +15,8 @@ class Api::AddressesController < Api::ApiController
 
   # GET /addresses/1 or /addresses/1.json
   def show
-    if current_user.userable.addresses.include? address
-      render json: address, status:200 #ok
+    if current_user.userable.addresses.include? @address
+      render json: @address, status:200 #ok
     else
       render json:{message:"Forbidden Access to the Address"}, status:403 #forbidden
     end
@@ -40,11 +40,11 @@ class Api::AddressesController < Api::ApiController
 
   # PATCH/PUT /addresses/1 or /addresses/1.json
   def update
-    if current_user.userable.addresses.include?(address)
-      if(address.update(address_params))
-        render json:address , status: 202#accepted
+    if current_user.userable.addresses.include?(@address)
+      if(@address.update(address_params))
+        render json:@address , status: 202#accepted
       else
-        render json:{error: address.errors.full_messages}, status:422 #unprocessable_entity
+        render json:{error: @address.errors.full_messages}, status:422 #unprocessable_entity
       end
     else
       render json:{message:"Forbidden Access to update the address"}, status:403 #forbidden
@@ -53,18 +53,18 @@ class Api::AddressesController < Api::ApiController
 
   # DELETE /addresses/1 or /addresses/1.json
   def destroy
-    if current_user.userable.addresses.include?(address)
+    if current_user.userable.addresses.include?(@address)
       primary_address=false
       if current_user.userable.primary_address_id == params[:id].to_i
         primary_address=true
       end
-      p "================================"
-      p primary_address
+     # p "================================"
+      #p primary_address
       if ! primary_address
-         if(address.destroy)
+         if(@address.destroy)
             render json:{ message: "Address Deleted successfully"},status:200 #ok
          else
-            render json:{error: address.errors.full_messages}, status:422#unprocessable_entity
+            render json:{error: @address.errors.full_messages}, status:422#unprocessable_entity
          end
       else
         render json:{error: "Address is a Primary address please change primary address to delete it "}, status: 422#unprocessable_entity
@@ -96,7 +96,7 @@ class Api::AddressesController < Api::ApiController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_address
-      address = Address.find_by(id: params[:id])
+      @address = Address.find_by(id: params[:id])
     end
    private
     # Only allow a list of trusted parameters through.

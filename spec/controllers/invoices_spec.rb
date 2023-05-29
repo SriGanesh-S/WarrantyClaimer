@@ -36,38 +36,6 @@ RSpec.describe InvoicesController, type: :controller do
 
 
     end
-
-     
-    
-
-    # describe 'GET Show' do
-    #     context 'when seller tries to access their products' do
-    #       it 'render show' do
-    #         sign_in  user_seller
-    #         get :show, params:{id: product.id}
-    #         expect(response).to render_template :show
-
-    #        end
-    #     end
-
-    #     context 'when seller tries to access a profile of another seller' do
-    #         it 'redirect to root path' do
-    #             sign_in user_seller
-    #             get :show, params: { id: product.id + 1  }
-    #             expect(response).to redirect_to(root_path)
-    #          end
-    #     end
-
-
-    #     context 'when seller tries to access a product with random id ' do
-    #         it 'redirect to root path' do
-    #             sign_in user_seller
-    #             get :show, params: { id: 456 }
-    #             expect(response).to redirect_to(root_path)
-    #          end
-    #     end
-
-    # end
   
 
     describe "post generate" do
@@ -101,5 +69,35 @@ RSpec.describe InvoicesController, type: :controller do
         end
 
      end
+
+
+    # describe 'GET Show' do
+    #     context 'when seller tries to access their products' do
+    #       it 'render show' do
+    #         sign_in  user_seller
+    #         get :show, params:{id: product.id}
+    #         expect(response).to render_template :show
+
+    #        end
+    #     end
+
+    #     context 'when seller tries to access a profile of another seller' do
+    #         it 'redirect to root path' do
+    #             sign_in user_seller
+    #             get :show, params: { id: product.id + 1  }
+    #             expect(response).to redirect_to(root_path)
+    #          end
+    #     end
+
+
+    #     context 'when seller tries to access a product with random id ' do
+    #         it 'redirect to root path' do
+    #             sign_in user_seller
+    #             get :show, params: { id: 456 }
+    #             expect(response).to redirect_to(root_path)
+    #          end
+    #     end
+
+    # end
 
 end

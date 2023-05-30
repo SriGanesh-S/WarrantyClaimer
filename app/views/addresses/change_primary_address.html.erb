@@ -1,40 +1,37 @@
-<div style = "float:right ; margin-right : 250px">
+<div class="row", style="float: right; margin-right: 250px;">
 
-<h1> Change your Primary Address here </h1>
-<div style = "display : flex ; flex-direction : column">
-
-    <h2> Your Addresses </h2>
-    <br><br>
-   <%if @addresses%>
-    <div class="card bg-light mb-3" style="max-width: 18rem;">
-    <%@addresses.each do |i|%>
-        
-            
-          <div class="card-header">Address <%=@addresses.find_index(i)+1%></div>
-          <div class="card-body">
-          <h6 class="card-title"><%=" Door No : #{i.door_no}"%></h6>
-          <h6 class="card-title"><%="Street : #{i.street}"%></h6>
-          <h6 class="card-title"><%=" District: #{i.district}"%></h6>
-          <h6 class="card-title"><%=" State: #{i.state}"%></h6>
-          <h6 class="card-title"><%=" Pin Code: #{i.pin_code}"%></h6>
-          <h6 class="card-title"><%=" Phone No: #{i.phone}"%></h6>
+<div class="container mt-5"><h1>Change your Primary Address here <br> <%= link_to "Add new Address", new_address_path , class: "btn btn-success btn-sm" %></h1></div>
+  <div style="display: flex; flex-direction: column;">
   
-           <% unless current_user.userable.primary_address_id == i.id%>
-                <%= link_to "Make as primary", primary_address_path(id: i.id) , class: "btn btn-primary btn-sm" %>
+    <div class="container mt-3"><h2>Your Addresses    </h2></div>
+    
+   
+    <% if @addresses %>
+      <div class="card mb-3" style="max-width: 18rem;">
+        <% @addresses.each do |address| %>
+          <div class="card-header text-white" style="background-color: 	#36454F;">Address <%= @addresses.find_index(address) + 1 %></div>
+          <div class="card-body table-active">
+            <h6 class="card-title"><%= "Door No: #{address.door_no}" %></h6>
+            <h6 class="card-title"><%= "Street: #{address.street}" %></h6>
+            <h6 class="card-title"><%= "District: #{address.district}" %></h6>
+            <h6 class="card-title"><%= "State: #{address.state}" %></h6>
+            <h6 class="card-title"><%= "Pin Code: #{address.pin_code}" %></h6>
+            <h6 class="card-title"><%= "Phone No: #{address.phone}" %></h6>
+  
+            <% unless current_user.userable.primary_address_id == address.id %>
+              <%= link_to "Make as primary", primary_address_path(id: address.id), class: "btn btn-primary btn-sm" %>
             <% else %>
-                  <button type="button" class="btn btn-secondary btn-sm" disabled>Primary Address</button>
+              <button type="button" class="btn btn-secondary btn-sm" disabled>Primary Address</button>
             <% end %>
-           </div>
-         <%end%>
-   </div>
 
-            
-        
-    <%end%>
-</div>
-
-
-  <h1> Add New Address </h1>
-  <%= link_to "Add Address", new_address_path %>
-
+              <%= link_to "Edit", edit_address_path(id: address.id), class: "btn btn-success btn-sm" %>
+              <%= link_to "Delete", address, method: :delete,class: "btn btn-danger btn-sm"  %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  
+  
+  
 </div>

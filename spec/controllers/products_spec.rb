@@ -104,7 +104,7 @@ RSpec.describe ProductsController, type: :controller do
             it "render index " do
                 sign_in user_seller
                 post :create , params:{product:{name: "Hp" ,category: "Laptop", seller: seller }} 
-                expect(response).to render_template :index
+                expect(response).to redirect_to(products_path)
             end
 
         end

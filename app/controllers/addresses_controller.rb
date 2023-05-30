@@ -73,12 +73,22 @@ class AddressesController < ApplicationController
 
   # DELETE /addresses/1 or /addresses/1.json
   def destroy
-    @address.destroy
-   
-    respond_to do |format|
-      format.html { redirect_to addresses_url, notice: "Address was successfully destroyed." }
-      format.json { head :no_content }
+    if current_user.userable.addresses.include?(@address)
+      primary_address=false
+      if current_user.userable.primary_address_id == params[:id].to_i
+        primary_address=true
+      end
     end
+    if !primary_address
+       @address.destroy
+       redirect_to (change_primary_address_path)
+       flash[:notice]= "Address was successfully destroyed." 
+      
+  
+   else
+    redirect_to( change_primary_address_path)
+    flash[:alert]=" Primary Address cannot be Deleted"
+   end
   end
 
   def primary_address

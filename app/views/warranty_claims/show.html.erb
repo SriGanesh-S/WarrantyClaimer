@@ -1,9 +1,16 @@
-<div class="col-lg-10" >
-<h1>
-Warranty Claim Details </h1>
-<p> <strong> Claim ID: </strong> <%= @warranty_claim.id %></p>
-<p><strong>Invoice ID:</strong> <%= @warranty_claim.invoice_id %></p>
-<p><strong>Problem Description:</strong> <%= @warranty_claim.problem_description %></p>
+<div class="col-lg-10">
+  <h1>Warranty Claim Details</h1>
+  <p><strong>Claim ID:</strong> <%= @warranty_claim.id %></p>
+  <p><strong>Invoice ID:</strong> <%= @warranty_claim.invoice_id %></p>
+  <p><strong>Problem Description:</strong> <%= @warranty_claim.problem_description %></p>
 
-<%=link_to 'Back' , warranty_claims_path %>|<%=link_to 'Edit' ,edit_warranty_claim_path(@warranty_claim)  %>
+  <div   class="details-actions">
+    <%= link_to 'Back', warranty_claims_path, class: 'btn btn-secondary' %> 
+    <%= link_to 'Edit', edit_warranty_claim_path(@warranty_claim), class: 'btn btn-primary' %>
+     <%= link_to 'Delete', warranty_claim_path(@warranty_claim), method: :delete,  class: 'btn btn-danger'     %>
+             
+                                   
+        
+
+  </div>
 </div>

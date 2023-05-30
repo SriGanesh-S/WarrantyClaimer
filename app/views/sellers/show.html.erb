@@ -1,9 +1,13 @@
-<div class="col-lg-10" >
-<h1>Seller Details </h1>
-<p><strong>ID:</strong> <%= @seller.id %></p>
-<p> <strong> Name: </strong> <%= @seller.name %></p>
-<p><strong>Email:</strong> <%= @seller.email %></p>
-<p><strong>Organition:</strong> <%= @seller.organisation_name %></p>
-<p><strong>Designation:</strong> <%= @seller.designation %></p>
-<%=link_to 'Back' , seller_dashboard_path %>|<%=link_to 'Edit' ,edit_seller_path(@seller)  %>
+<div class="col-lg-10 seller-details-container">
+  <h1>Seller Details</h1>
+
+  <p><strong>Name:</strong> <%= @seller.name %></p>
+  <p><strong>Email:</strong> <%= @seller.email %></p>
+  <p><strong>Organisation:</strong> <%= @seller.organisation_name %></p>
+  <p><strong>Designation:</strong> <%= @seller.designation %></p>
+
+  <div class="seller-details-actions">
+    <%= link_to 'Back', seller_dashboard_path, class: 'btn btn-secondary' %>
+    <%= link_to 'Edit', edit_seller_path(@seller), class: 'btn btn-primary' %>
+  </div>
 </div>

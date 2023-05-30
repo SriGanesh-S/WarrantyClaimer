@@ -23,14 +23,14 @@ class SellersController < ApplicationController
   #used to display a particular record
     def show
       unless current_user.userable == (@seller)
-        flash[:notice] = "You are not authorized to perform this action."
+        flash[:alert] = "You are not authorized to perform this action."
         redirect_to root_path
       end
     end
   #used to fetch the record to edit
     def edit
       unless current_user.userable == (@seller)
-        flash[:notice] = "You are not authorized to perform this action."
+        flash[:alert] = "You are not authorized to perform this action."
         redirect_to root_path
       end
     end
@@ -45,7 +45,7 @@ class SellersController < ApplicationController
   #deletes a record from DB
     def destroy
       unless current_user.userable == (@seller)
-        flash[:notice] = "You are not authorized to perform this action."
+        flash[:alert] = "You are not authorized to perform this action."
         redirect_to root_path
       end
         if(@seller.destroy)
@@ -59,11 +59,15 @@ class SellersController < ApplicationController
     def dashboard
         # @seller = Seller.find(current_user.userable.id)
        # @products = current_user.userable.products
+       @customer_count = current_user.userable.customers.distinct.count
+       @product_count = current_user.userable.products.distinct.count
+       @invoice_count = current_user.userable.invoices.distinct.count
+      #  p"==========="
+      #  p @customer_count
         @warranty_claims = current_user.userable.warranty_claims
 
       
 
-        # p"==========="
         # p @warranty_claims
        
        
@@ -83,7 +87,7 @@ class SellersController < ApplicationController
 
     def authorize_seller
       unless (user_signed_in? && current_user.seller?)
-        flash[:notice] = "You are not authorized to perform this action."
+        flash[:alert] = "You are not authorized to perform this action."
         redirect_to root_path
       end
     end

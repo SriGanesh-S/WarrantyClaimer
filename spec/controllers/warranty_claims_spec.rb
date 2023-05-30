@@ -116,7 +116,7 @@ RSpec.describe WarrantyClaimsController, type: :controller do
             it "render index " do
                 sign_in user_seller
                 post :create , params:{warranty_claim:{id:invoice.id, problem_description: warranty_claim.problem_description  , invoice: invoice }} 
-                expect(response).to render_template :index
+                expect(response).to redirect_to(warranty_claims_path)
             end
 
         end

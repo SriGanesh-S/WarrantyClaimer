@@ -20,11 +20,12 @@ class WarrantyClaimsController < ApplicationController
                 unless current_user.userable.invoices.include?(invoice)
                     flash[:notice] = "You are not authorized to perform this action."
                     redirect_to root_path
+                    return
                 end
 
                 if(@warranty_claim.save)
                     set_claim_status 
-                    render :index
+                    redirect_to warranty_claims_path
                 else
                     render :new
                 end
@@ -54,24 +55,30 @@ class WarrantyClaimsController < ApplicationController
                     render :show
                 else
                     render :edit 
+                    
                 end
             end
           #deletes a record from DB
             def destroy
                 unless current_user.userable.warranty_claims.include?(@warranty_claim)
-                    flash[:notice] = "You are not authorized to perform this action."
+                    flash[:alert] = "You are not authorized to perform this action."
                     redirect_to root_path
+                    return
                 end
                 if  ["In Progress","Accepted"].include?(@warranty_claim.claim_resolution.status) 
                     if(@warranty_claim.destroy)
-                        redirect_to warranty_claims_path
-                     else
-                        render :edit 
+                        flash[:notice] ="Deleted successfully"
+                        
+                        
+                    
                      end
                 else
-                    flash[:notice] = "You cannot Delete claim once It's Shipped or Closed."
-                    redirect_to cust_dashboard_path
+                    flash[:alert] ="Cannot Delete claims if Action Taken"
+                    
+                    
+                
                 end
+                redirect_to warranty_claims_path
             end
         
          private
@@ -85,6 +92,7 @@ class WarrantyClaimsController < ApplicationController
                 @claim_status=ClaimResolution.new
                 @claim_status.warranty_claim_id=@warranty_claim.id
                 @claim_status.status="In Progress"
+                @claim_status.description="Our Team will go through your claim"
                 @claim_status.save
 
             end

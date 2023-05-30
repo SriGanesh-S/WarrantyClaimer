@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light " >
   <a class="navbar-brand" href="/">Warranty claimer</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -52,6 +52,34 @@
           
            <%= link_to 'Products', 
               products_path  
+          
+               
+           %>
+          
+        </div>
+       </li>
+       <%end%>
+
+       <%  if current_user.seller?%>
+        <li class="nav-item">
+         <div class="nav-link" >
+          
+           <%= link_to 'Invoices', 
+              invoices_path  
+          
+               
+           %>
+          
+        </div>
+       </li>
+       <%end%>
+
+         <%  if current_user.customer?%>
+        <li class="nav-item">
+         <div class="nav-link" >
+          
+           <%= link_to 'Claim History', 
+              warranty_claims_path  
           
                
            %>

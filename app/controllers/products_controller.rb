@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
              @product.seller_id=current_user.userable_id
              if(@product.save)
                  flash[:notice]="Product created successfully: "
-                 render :index
+                 redirect_to products_path 
              else
                  render :new
              end
@@ -25,16 +25,18 @@ class ProductsController < ApplicationController
        #used to display a particular record
          def show
           unless current_user.userable.products.include?(@product)
-            flash[:notice] = "You are not authorized to perform this action."
+            flash[:alert] = "You are not authorized to perform this action."
             redirect_to root_path
           end
          end
        #used to fetch the record to edit
          def edit
           unless current_user.userable.products.include?(@product)
-            flash[:notice] = "You are not authorized to perform this action."
+            flash[:alert] = "You are not authorized to perform this action."
             redirect_to root_path
+            return
           end
+
          end
        #saves the changes to DB
          def update
@@ -47,19 +49,21 @@ class ProductsController < ApplicationController
          end
        #deletes a record from DB
          def destroy
-          unless current_user.userable.products.include?(@product)
-            flash[:notice] = "You are not authorized to perform this action."
-            redirect_to root_path
-          end
-           if @product.invoices
-            flash[:notice] = "You can't delete a product if it's sold."
-            redirect_to root_path
-
+          # unless current_user.userable.products.include?(@product)
+          #   flash[:alert]= "You are not authorized to perform this action."
+          #   redirect_to root_path
+          #   return
+          # end
+           if @product.invoices.size !=0  
+            flash[:alert]="Product Has been sold already"
            elsif(@product.destroy)
-                 redirect_to products_path
+          
+                flash[:notice]="Deleted successfully"
+                 
            else
                  render :edit 
             end
+            redirect_to products_path
          end
      
       private
@@ -72,7 +76,7 @@ class ProductsController < ApplicationController
 
          def authorize_seller
           unless (user_signed_in? && current_user.seller?)
-            flash[:notice] = "You are not authorized to perform this action."
+            flash[:alert]="You are not authorized to perform this action."
             redirect_to root_path
           end
         end

@@ -9,7 +9,10 @@ class InvoicesController < ApplicationController
     # p  @product
 
    end
+   def index 
+    @invoices =current_user.userable.invoices
 
+   end
 
 
    def generate
@@ -18,7 +21,7 @@ class InvoicesController < ApplicationController
     @product = Product.find_by(id: params[:invoice][:id])
     unless (@product!=nil && current_user.userable.products.include?(@product))
       # p "\n \n product is nil\n \n \n "
-      flash[:notice] = "You are not authorized to perform this action."
+      flash[:alert] = "You are not authorized to perform this action."
       render :new
       return
     end
@@ -36,7 +39,8 @@ class InvoicesController < ApplicationController
     @invoice.customer_id=@customer.id
     @invoice.product_id=@product.id
     if @invoice.save
-        redirect_to seller_dashboard_path, notice: "Invoice generated successfully!" 
+      @customer.sellers << current_user.userable
+         redirect_to seller_dashboard_path, notice: "Invoice generated successfully!" 
     else
         redirect_to new , alert: "Failed to generate invoice."
     end
@@ -53,7 +57,7 @@ class InvoicesController < ApplicationController
 
    def authorize_seller
     unless (user_signed_in? && current_user.seller?)
-      flash[:notice] = "You are not authorized to perform this action."
+      flash[:alert] = "You are not authorized to perform this action."
       redirect_to root_path
     end
   end

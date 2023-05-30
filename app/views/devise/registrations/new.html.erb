@@ -1,12 +1,16 @@
-<div>
-<h2>Sign up</h2><Br>
+
+
+
+
+<div style="margin-right:500px">
+<h2 class="d-flex flex-row fw-bold  pt-4 pb-3 "><b>Sign up</b></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" ,required: true %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" ,required: true , class: "form-control shadow shadow-sm"%>
   </div>
 
   <div class="field">
@@ -14,12 +18,12 @@
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" ,required: true %>
+    <%= f.password_field :password, autocomplete: "new-password" ,required: true , class: "form-control shadow shadow-sm"%>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" ,required: true %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" ,required: true , class: "form-control shadow shadow-sm"%>
   </div>
    <div class="field">
     <%= f.label :role %><br />
@@ -32,12 +36,12 @@
   <%= fields_for :details do |d| %>
   <div class="field">
     <%= d.label :name %><br />
-    <%= d.text_field :name, autocomplete: "name" , class: "form-control", required: true %>
+    <%= d.text_field :name, autocomplete: "name" , class: "form-control shadow shadow-sm", required: true %>
   </div>
 
   <div class = "field">
     <%= d.label :phone_no %><br />
-    <%= d.number_field :phone_no, autocomplete: "email" , class: "form-control" , required: true %>
+    <%= d.number_field :phone_no, autocomplete: "phone_no" , class: "form-control shadow shadow-sm" , required: true %>
   </div>
 
   <%end%>
@@ -50,12 +54,12 @@
   <%=fields_for :customer_details do |cd|%>
   <div class="field">
     <%=cd.label :gender%><br>
-    <%=cd.text_field :gender ,  class: "form-control" %>
+    <%=cd.text_field :gender ,  class: "form-control shadow shadow-sm" %>
     <br>
     </div>
   <div class="field">    
     <%= cd.label :age %><br >
-    <%= cd.number_field :age, autocomplete: "email" , class: "form-control" , required: true %>
+    <%= cd.number_field :age, autocomplete: "email" , class: "form-control shadow shadow-sm"%>
   </div>
   <%end%>
   </fieldset>
@@ -66,12 +70,12 @@
    <%=fields_for :seller_details do |sd|%>
    <div class="field">
    <%=sd.label :organisation_name%><br>
-   <%=sd.text_field :organisation_name ,  class: "form-control" %>
+   <%=sd.text_field :organisation_name ,  class: "form-control shadow shadow-sm" %>
    </div>
   <br>
   <div class="field">
   <%=sd.label :designation%><br>
-  <%=sd.text_field :designation ,  class: "form-control" %>
+  <%=sd.text_field :designation ,  class: "form-control shadow shadow-sm" %>
   </div>
   <br>
 

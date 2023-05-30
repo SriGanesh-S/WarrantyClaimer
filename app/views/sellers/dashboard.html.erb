@@ -1,7 +1,50 @@
 <div class="container">
   <h1 class="mt-4">Welcome to the Seller Dashboard</h1>
+  <style>
+    .card {
+      width: 17rem;
+    }
+    .card-title {
+      font-size: 1.5rem;
+    }
+    .card-text {
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 1rem;
+    }
+  </style> 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card bg-success text-white mb-3">
+          <div class="card-body">
+            <h5 class="card-title"> Customers Reached</h5>
+            <p class="card-text text-center"><%= @customer_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-success text-white mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Listed Products</h5>
+            <p class="card-text text-center"><%= @product_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-success text-white mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Sold Products</h5>
+            <p class="card-text text-center"><%= @invoice_count %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <%= link_to 'Add New Product', new_product_path, class: 'btn btn-success mt-4' %>
+
   <h2 class="mt-4">Warranty Claims</h2>
   <% if @warranty_claims.any? %>
     <table class="table mt-3">
@@ -17,23 +60,21 @@
       </thead>
       <tbody>
         <% @warranty_claims.each do |claim| %>
-          <% status=ClaimResolution.find_by(warranty_claim_id: claim.id) %>
-          <tr>
-           <%if ["In Progress","Accepted","Shipped"].include?(status.status) %>
-            <td><%= claim.id %></td>
-            <td><%= claim.invoice.customer.name %></td>
-            <td><%= claim.invoice.product.name %></td>
-            <td><%= claim.problem_description %></td>
-            <td><%= status.status%></td>
-             <td><%=link_to 'update status' , claim_resolution_path(id: status.id)  %></td>
-            <%end%>
-          </tr>
+          <% status = ClaimResolution.find_by(warranty_claim_id: claim.id) %>
+          <% if ["In Progress", "Accepted", "Shipped"].include?(status.status) %>
+            <tr class="table-active">
+              <td><%= claim.id %></td>
+              <td><%= claim.invoice.customer.name %></td>
+              <td><%= claim.invoice.product.name %></td>
+              <td><%= claim.problem_description %></td>
+              <td><%= status.status %></td>
+              <td><%= link_to 'Update Status', claim_resolution_path(id: status.id) %></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
   <% else %>
     <p>No warranty claims found.</p>
   <% end %>
-
-  
 </div>

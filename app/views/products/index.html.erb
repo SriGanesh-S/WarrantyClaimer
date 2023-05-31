@@ -2,21 +2,22 @@
   <h1>Products List</h1>
  <h2> <%= link_to 'New Product', new_product_path, class: 'btn btn-success' %>
  </h2>
- <%@products%>
- <%if @products %>
+ 
+ <%if @products.size != 0 %>
   <table class="table">
     <thead class="thead-dark">
       <tr>
-        <th>ID</th>
+        <th>S.No</th>
         <th>Name</th>
         <th>Category</th>
         <th colspan="3">Actions</th>
       </tr>
     </thead>
     <tbody>
+    <%i=0%>
       <% @products.each do |product| %>
         <tr class="table-active">
-          <td><%= product.id %></td>
+          <td><%= i= i+1 %></td>
           <td><%= product.name %></td>
           <td><%= product.category %></td>
           <td><%= link_to 'View', product, class: 'btn btn-primary' %></td>

@@ -1,8 +1,12 @@
-<div class="col-lg-10" >
-<h1>Product Details </h1>
-<h4><p>  <strong> Name: </strong>  <%= @product.name %></p></h4>
-<h4><p><strong>Category:</strong> <%= @product.category %></p></h4>
+<div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
+  <h1 style="color: #fff; text-align: center;">Product Details</h1>
+  <h4><p style="color: #fff;"><strong>Name:</strong> <%= @product.name %></p></h4>
+  <h4><p style="color: #fff;"><strong>Category:</strong> <%= @product.category %></p></h4>
+   <h4><p style="color: #fff;"><strong>Sold Units:</strong> <%= @product.invoices.count %></p></h4>
 
-
-<%=link_to 'Back' , products_path %>|<%=link_to 'Edit' ,edit_product_path(@product)  %>|<%=link_to 'Generate Invoice' ,new_invoice_path(id: @product.id)  %>
+  <div style="text-align: center; margin-top: 20px;">
+    <%= link_to 'Back', products_path, class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none;' %>
+    <%= link_to 'Edit', edit_product_path(@product), class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
+    <%= link_to 'Generate Invoice', new_invoice_path(id: @product.id), class: 'btn btn-success', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
+  </div>
 </div>

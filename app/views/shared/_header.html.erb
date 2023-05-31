@@ -74,11 +74,32 @@
        </li>
        <%end%>
 
-         <%  if current_user.customer?%>
+       <%  if current_user.seller?%>
+        <li class="nav-item">
+         <div class="nav-link" >
+          
+           <%= link_to 'Manage Resolutions', 
+              claim_resolutions_path %>
+          
+        </div>
+       </li>
+       <%end%>
+       <%  if current_user.seller?%>
         <li class="nav-item">
          <div class="nav-link" >
           
            <%= link_to 'Claim History', 
+              warranty_claims_path %>
+          
+        </div>
+       </li>
+       <%end%>
+
+         <%  if current_user.customer?%>
+        <li class="nav-item">
+         <div class="nav-link" >
+          
+           <%= link_to ' Manage Claim ', 
               warranty_claims_path  
           
                

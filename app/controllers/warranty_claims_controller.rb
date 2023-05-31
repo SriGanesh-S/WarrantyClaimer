@@ -22,7 +22,11 @@ class WarrantyClaimsController < ApplicationController
                     redirect_to root_path
                     return
                 end
-
+                if  invoice.purchase_date < 1.year.ago
+                    flash[:notice] = "Your Warranty Period Experired"
+                    redirect_to root_path
+                    return 
+                end
                 if(@warranty_claim.save)
                     set_claim_status 
                     redirect_to warranty_claims_path
@@ -38,6 +42,10 @@ class WarrantyClaimsController < ApplicationController
                     redirect_to root_path
                     return
                 end
+
+                # @address=Address.find_by(id:@warranty_claim.invoice.customer.primary_address_id)
+                # p"=========================="
+                # p 
             end
           #used to fetch the record to edit
             def edit

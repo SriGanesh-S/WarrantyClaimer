@@ -1,16 +1,36 @@
-<div class="col-lg-10">
-  <h1>Warranty Claim Details</h1>
-  <p><strong>Claim ID:</strong> <%= @warranty_claim.id %></p>
-  <p><strong>Invoice ID:</strong> <%= @warranty_claim.invoice_id %></p>
-  <p><strong>Problem Description:</strong> <%= @warranty_claim.problem_description %></p>
+<div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
+  <h1 style="color: #fff; text-align: center; margin-bottom: 20px;">Warranty Claim Details</h1>
 
-  <div   class="details-actions">
-    <%= link_to 'Back', warranty_claims_path, class: 'btn btn-secondary' %> 
-    <%= link_to 'Edit', edit_warranty_claim_path(@warranty_claim), class: 'btn btn-primary' %>
-     <%= link_to 'Delete', warranty_claim_path(@warranty_claim), method: :delete,  class: 'btn btn-danger'     %>
-             
-                                   
-        
+  <div style="display: flex; justify-content: space-between;">
+    <div style="width: 50%;">
 
+      <p style="color: #fff;"><strong>Customer Name:</strong> <%= @warranty_claim.invoice.customer.name %></p>
+      <p style="color: #fff;"><strong>Product Name:</strong> <%= @warranty_claim.invoice.product.name %></p>
+      <p style="color: #fff;"><strong>Problem Description:</strong> <%= @warranty_claim.problem_description %></p>
+      <p style="color: #fff;"><strong>Status:</strong> <%= @warranty_claim.claim_resolution.status %></p>
+      <p style="color: #fff;"><strong>Created On:</strong> <%= @warranty_claim.created_at.to_date %></p>
+    </div>
+    
+    <div style="width: 50%; text-align: right;">
+     <h4> <strong style="color: #fff;">Customer Address</strong></h4>
+      <% @address = Address.find_by(id: @warranty_claim.invoice.customer.primary_address_id) %>
+      <p style="color: #fff;"><strong>Door No:</strong> <%= @address.door_no %></p>
+      <p style="color: #fff;"><strong>Street:</strong> <%= @address.street %></p>
+      <p style="color: #fff;"><strong>District:</strong> <%= @address.district %></p>
+      <p style="color: #fff;"><strong>State:</strong> <%= @address.state %></p>
+      <p style="color: #fff;"><strong>Pin Code:</strong> <%= @address.pin_code %></p>
+      <p style="color: #fff;"><strong>Phone:</strong> <%= @address.phone %></p>
+    </div>
+  </div>
+  <div class="details-actions" style="margin-top: 20px; text-align: center;">
+    <%= link_to 'Back', warranty_claims_path, class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none;' %>
+    <% if current_user.customer? %>
+    <%= link_to 'Edit', edit_warranty_claim_path(@warranty_claim), class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
+    <%= link_to 'Delete', warranty_claim_path(@warranty_claim), method: :delete, class: 'btn btn-danger', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
+    <% end %>
+    <% if current_user.seller?%>
+     <%= link_to 'Resolution', claim_resolution_path(@warranty_claim.claim_resolution), class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none;' %>
+     
+    <%end%>
   </div>
 </div>

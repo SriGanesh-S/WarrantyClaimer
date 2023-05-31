@@ -4,7 +4,7 @@
   <table class="table mt-3">
     <thead class="thead-dark">
       <tr>
-        <th>ID</th>
+        <th>S.No</th>
         <th>Product Name</th>
         <th>Created On</th>
         <th>Status</th>
@@ -12,9 +12,10 @@
       </tr>
     </thead>
     <tbody>
+     <%i=0%>
       <% @warranty_claims.each do |warranty_claim| %>
         <tr class="table-active">
-          <td><%= warranty_claim.id %></td>
+          <td><%= i=i+1 %></td>
           <td><%= warranty_claim.invoice.product.name %></td>
           <td><%= warranty_claim.created_at.to_date %></td>
           <td><%= warranty_claim.claim_resolution.status %></td>

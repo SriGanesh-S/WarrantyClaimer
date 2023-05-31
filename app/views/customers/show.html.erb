@@ -1,12 +1,15 @@
-<div class="col-lg-10" >
-<h1>Customer Details </h1>
-<p> <strong> Id: </strong> <%= @customer.id %></p>
-<p> <strong> Name: </strong> <%= @customer.name %></p>
-<p><strong>Email:</strong> <%= @customer.email %></p>
-<p><strong>Age:</strong> <%= @customer.age %></p>
-<p><strong>Gender:</strong> <%= @customer.gender %></p>
-<p><strong>Phone:</strong> <%= @customer.phone_no %></p>
-<%=link_to 'Back' , cust_dashboard_path %>|<%=link_to 'Edit' ,edit_customer_path(@customer)  %>
-<br>
+<div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
+  <h1 style="color: #fff; text-align: center;">Customer Details</h1>
 
+
+  <p style="color: #fff; margin-left: 20px;"><strong>Name:</strong> <%= @customer.name %></p>
+  <p style="color: #fff; margin-left: 20px;"><strong>Email:</strong> <%= @customer.email %></p>
+  <p style="color: #fff; margin-left: 20px;"><strong>Age:</strong> <%= @customer.age %></p>
+  <p style="color: #fff; margin-left: 20px;"><strong>Gender:</strong> <%= @customer.gender %></p>
+  <p style="color: #fff; margin-left: 20px;"><strong>Phone:</strong> <%= @customer.phone_no %></p>
+
+  <div style="margin-top: 20px;">
+    <%= link_to 'Back', cust_dashboard_path, class: 'btn btn-secondary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none;' %>
+    <%= link_to 'Edit', edit_customer_path(@customer), class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
+  </div>
 </div>

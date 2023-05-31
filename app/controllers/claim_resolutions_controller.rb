@@ -68,6 +68,7 @@ class ClaimResolutionsController < ApplicationController
   
     # DELETE /claim_resolutions/1 or /claim_resolutions/1.json
     def destroy
+      flash[:alert]="It is Not advisable to delete resolution"
       @claim_resolution.destroy
   
       respond_to do |format|

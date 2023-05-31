@@ -1,4 +1,24 @@
-<div>
-<h1>Edit Sellers<h2>
-<%= render "form" %>
+<div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
+  <h1 style="color: #fff; text-align: center;">Edit Sellers Profile</h1>
+<%if @seller.errors.any?%>
+    <% @seller.errors.full_messages.each do|message| %>
+     <p><%=message%></p>
+    <%end%>
+ <%end%>
+<%=form_with model: @seller do|form|%>
+<div class="form-group">
+    <%= form.label :Name %>
+    <%= form.text_field :name ,class: "form-control" %>
+</div>
+
+<div class="form-group">
+     <%= form.label :Organisation %>
+     <%= form.text_field :organisation_name ,class: "form-control" %>
+</div>
+<div class="form-group">
+     <%= form.label :Designation %>
+     <%= form.text_field :designation ,class: "form-control" %>
+</div>
+<%=form.submit %>
+<%end%>
 </div>

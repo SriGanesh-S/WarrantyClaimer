@@ -50,25 +50,29 @@
     <table class="table mt-3">
       <thead class="thead-dark">
         <tr>
-          <th>Claim ID</th>
+          <th>S No</th>
           <th>Customer Name</th>
           <th>Product Name</th>
           <th>Description</th>
           <th>Current Status</th>
+          <th>View claim</th>
           <th>Update Status</th>
+        
         </tr>
       </thead>
       <tbody>
+        <%i=0%>
         <% @warranty_claims.each do |claim| %>
           <% status = ClaimResolution.find_by(warranty_claim_id: claim.id) %>
           <% if ["In Progress", "Accepted", "Shipped"].include?(status.status) %>
             <tr class="table-active">
-              <td><%= claim.id %></td>
+              <td><%= i= i + 1 %></td>
               <td><%= claim.invoice.customer.name %></td>
               <td><%= claim.invoice.product.name %></td>
               <td><%= claim.problem_description %></td>
               <td><%= status.status %></td>
-              <td><%= link_to 'Update Status', claim_resolution_path(id: status.id) %></td>
+                            <td><%= link_to 'view', warranty_claim_path(id: status.warranty_claim.id) , class: 'btn btn-primary' %></td>
+              <td><%= link_to 'Update', claim_resolution_path(id: status.id) , class: 'btn btn-primary' %></td>
             </tr>
           <% end %>
         <% end %>

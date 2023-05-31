@@ -22,6 +22,10 @@ ActiveAdmin.register Seller do
     column :email
     column  :organisation_name
     column :designation
+    column :phone_no
+    column "Primary Address" , :id, sortable: :id do |i|
+      link_to i.primary_address_id , admin_address_path(i.primary_address_id)
+    end
   end
 
 

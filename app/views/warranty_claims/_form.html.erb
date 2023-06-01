@@ -1,6 +1,6 @@
 <%if @warranty_claim.errors.any?%>
     <% @warranty_claim.errors.full_messages.each do|message| %>
-     <p><%=message%></p>
+       <%flash.now[:alert]=message%>
     <%end%>
  <%end%>
 <%=form_with model: @warranty_claim do|form|%>

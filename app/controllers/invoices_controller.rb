@@ -42,7 +42,7 @@ class InvoicesController < ApplicationController
       @customer.sellers << current_user.userable
          redirect_to seller_dashboard_path, notice: "Invoice generated successfully!" 
     else
-        redirect_to new , alert: "Failed to generate invoice."
+        render :new , alert: "Failed to generate invoice."
     end
   else
     flash[:notice]="Enter valid Customer mail " 

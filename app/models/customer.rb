@@ -15,7 +15,7 @@ class Customer < ApplicationRecord
     has_many :products , through: :invoices
     has_many :warranty_claims , through: :invoices
     has_many :claim_resolutions, through: :warranty_claims
-    has_one :user, as: :userable
+    has_one :user, as: :userable, dependent: :destroy
     
     scope :has_purchased, -> { joins(:invoices).distinct }
     scope :not_purchased, -> { left_outer_joins(:invoices).where(invoices: { id: nil }) }

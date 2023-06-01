@@ -11,12 +11,16 @@ class Api::CustomersController < Api::ApiController
 
   #used to insert the new record in DB
     def create
+      if customer
         customer=Customer.new(customer_params)
         if(customer.save)
             render json:customer , status: 201#created
         else
             render json:{error: customer.error.full_messages},status:422 #unprocessable_entity
         end
+      else
+        render json: {error: "No Customer found with  given  id #{params[:id]}"}
+      end
 
     end
   #used to display aparticular record
@@ -55,7 +59,8 @@ class Api::CustomersController < Api::ApiController
   #deletes a record from DB
     def destroy
         customer=Customer.find_by(id: params[:id])
-        if customer && current_user.userable_id==customer.id &&current_user.customer?
+        if  customer
+        if  current_user.userable_id==customer.id &&current_user.customer?
         
          if(customer.destroy)
             render json:{ message: "Customer Deleted successfully"},status:200 #ok
@@ -66,11 +71,15 @@ class Api::CustomersController < Api::ApiController
             render json:{error: "Fobidden Access to delete the profile"}, status: 403
 
         end
+      else
+        render json: {error: "No Customer found with  given  id #{params[:id]}"}, status: 404
+      end
     end
 
     def customer_invoices
      customer=Customer.find_by(id: current_user.userable_id)
-      if customer && current_user.customer?
+    
+      if  current_user.customer?
         invoices = customer.invoices
         if invoices
             render json:invoices , status:200
@@ -82,6 +91,7 @@ class Api::CustomersController < Api::ApiController
       else
         render json:{error: "Forbidden Access to update the profile"}, status: 403#forbidden
       end
+   
     end
 
  private

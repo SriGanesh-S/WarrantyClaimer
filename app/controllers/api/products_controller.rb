@@ -87,6 +87,10 @@ class Api::ProductsController < Api::ApiController
       private
          def set_product
              @product=Product.find_by(id: params[:id])
+             if !@product
+              render json:{error: "No Product Found with given Id #{params[:id]}"}, status: 404
+              return
+             end
          end
          def product_params
              params.require( :product).permit(:name, :category)

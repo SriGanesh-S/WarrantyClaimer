@@ -1,18 +1,41 @@
+<div style = "float:right">
+   <img src = "<%=image_path('homepage.png')%>"  height = 700px width = 600px  style = "margin-top:50px ; margin-right:0">
+</div>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
-<body>
-  <div class="container mt-5">
-    <h1>Welcome to the Warranty Claiming System</h1>
-    <p>The objective of this project is to develop a Warranty Claiming System that enables customers to easily submit warranty claims for products they have purchased, and enables Sellers to efficiently manage the claims process.</p>
-    <p>The system allows customers to track the status of their claims and receive updates on the status. Sellers can review and process claims in a timely manner.</p>
-    <p>With this system, customers can conveniently submit warranty claims, and sellers can efficiently manage and resolve them, ensuring a smooth and transparent process.</p>
-    <p>Thank you for using the Warranty Claiming System. We hope it provides you with a seamless experience and efficient resolution of warranty claims.</p>
+<%
+=begin%>
+ 
+<div >
+  <h1> WELCOME TO WARRANTY CLAIMER </h1>
+  <div class = "card shadow shadow-md">
+    <div class = "card-body">
+      <h1> Claim your warranty here !! </h1>
+    </div>
   </div>
+</div> 
+<%
+=end%>
 
-  <!-- Include Bootstrap JS -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
-</html>
+ <div class="container",style = "float:left ; margin-top: 100px ; margin-left:10px">
+    <div class="jumbotron mt-4" style= "background-color: rgba(0, 0, 0, 0.5); color:#fff; height:400px">
+     <b>  <h1 >Welcome to Warranty Claimer</h1> </b>
+    <b>  <p class="lead">Manage your Warranties On The Go !!</p></b>
 
-
+       <hr class="my-4">
+      <%if user_signed_in?%>
+       <p class="lead">Sit back , relax, and let us take care of your warranty claims smoothly !</p>
+       <%end%>
+     
+     <p>Experience Seamless Warranty Claim Resolution: Effortlessly Get What You Deserve !!</p> 
+     
+      
+      <%if !user_signed_in?%>
+      
+       <p>Join the Warranty Claimer and sign up for hassle-free warranty claims !</p>
+      
+      <%= link_to "Sign Up" , new_user_registration_path ,class:"btn btn-primary btn-lg "%>
+      <p>Already have an  account?  <%= link_to "Log in" , new_user_session_path ,class:"btn btn-light btn-sm " , style:"" %>
+      <%end%>
+      
+    </div>
+  </div>

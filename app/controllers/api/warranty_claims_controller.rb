@@ -72,6 +72,11 @@ class  Api::WarrantyClaimsController < Api::ApiController
          private
             def set_warranty_claim
                 @warranty_claim=WarrantyClaim.find_by(id: params[:id])
+                if !@warranty_claim
+                  render  json:{error: "No Warranty Claim found with given Id#{params[:id]}"} , status:404
+                  return
+                end
+
             end
             def warranty_claim_params
                 params.require( :warranty_claim).permit( :invoice_id,:problem_description)

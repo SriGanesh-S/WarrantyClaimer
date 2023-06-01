@@ -7,6 +7,7 @@ class Invoice < ApplicationRecord
   validates :purchase_date , presence: true 
   validates :cust_email , presence: true , format:{with: /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+/, message: 'please enter a valid email' }
   validate :validate_purchase_date 
+  
 
 
   scope :has_claimed, -> { joins(:warranty_claim).distinct }
@@ -20,5 +21,7 @@ class Invoice < ApplicationRecord
       errors.add(:purchase_date, "cannot be in the future")
     end
   end
+
+  
 
 end

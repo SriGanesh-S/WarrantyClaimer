@@ -31,6 +31,8 @@
     <td>
       <% if claim.present? %>
           Claimed
+      <%elsif invoice.purchase_date <1.year.ago%>
+             Cliam Period Expired
         <% else %>
            Not Claimed
         <% end %>

@@ -1,8 +1,9 @@
+<div class="container">
 <div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
   <h1 style="color: #fff; text-align: center;">Edit Customer Profile</h1>
 <%if @customer.errors.any?%>
     <% @customer.errors.full_messages.each do|message| %>
-     <p><%=message%></p>
+     <%flash.now[:alert]=message%>
     <%end%>
  <%end%>
 <%=form_with model: @customer do|form|%>
@@ -23,6 +24,9 @@
      <%= form.label :Phone %>
      <%= form.number_field :phone_no ,class: "form-control" %>
 </div>
-<%=form.submit %>
+
+  <%=link_to "Back" , customer_path(@customer), class: "btn btn-secondary", style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none;'%>  
+  <%=form.submit "Update", class:"btn btn-primary",style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px'%>  
 <%end%>
+</div>
 </div>

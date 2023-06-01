@@ -15,10 +15,14 @@ class Api::AddressesController < Api::ApiController
 
   # GET /addresses/1 or /addresses/1.json
   def show
-    if current_user.userable.addresses.include? @address
-      render json: @address, status:200 #ok
+    if @address
+     if current_user.userable.addresses.include? @address
+       render json: @address, status:200 #ok
+      else
+       render json:{message:"Forbidden Access to the Address"}, status:403 #forbidden
+     end
     else
-      render json:{message:"Forbidden Access to the Address"}, status:403 #forbidden
+      render json:{message:"Address Not Found for Given Id"}, status:404 
     end
   end
 
@@ -40,6 +44,7 @@ class Api::AddressesController < Api::ApiController
 
   # PATCH/PUT /addresses/1 or /addresses/1.json
   def update
+   if @address
     if current_user.userable.addresses.include?(@address)
       if(@address.update(address_params))
         render json:@address , status: 202#accepted
@@ -49,10 +54,14 @@ class Api::AddressesController < Api::ApiController
     else
       render json:{message:"Forbidden Access to update the address"}, status:403 #forbidden
     end
-  end
+   else
+    render json:{message:"Address Not Found for Given Id"}, status:404 
+   end 
+ end
 
   # DELETE /addresses/1 or /addresses/1.json
   def destroy
+    if @address
     if current_user.userable.addresses.include?(@address)
       primary_address=false
       if current_user.userable.primary_address_id == params[:id].to_i
@@ -73,20 +82,27 @@ class Api::AddressesController < Api::ApiController
       render json:{error: "Fobidden Access to delete the Address"}, status: 403
 
     end
+    else
+    render json:{message:"Address Not Found for Given Id"}, status:404 
+   end
   end
 
   def primary_address
     address =Address.find_by(id: params[:id])
-    
-    if current_user.userable.addresses.include?(address )
-       if current_user.userable.update(primary_address_id: address.id)
-        render json:{ message: " Primary Address Changed successfully"},status:200 #ok
-       else
-        render json:{error: address.errors.full_messages}, status:422 #unprocessable_entity
+    if address
+      if current_user.userable.addresses.include?(address )
+        if current_user.userable.update(primary_address_id: address.id)
+         render json:{ message: " Primary Address Changed successfully"},status:200 #ok
+        else
+          render json:{error: address.errors.full_messages}, status:422 #unprocessable_entity
+       end
+      else
+        render json:{error: "Fobidden Access to the specified Address"}, status: 403
       end
     else
-      render json:{error: "Fobidden Access to the specified Address"}, status: 403
+      render json:{message:"Address Not Found for Given Id"}, status:404 
     end
+    
   end
 
   # def change_primary_address

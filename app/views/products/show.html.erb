@@ -1,3 +1,4 @@
+<div class="container">
 <div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
   <h1 style="color: #fff; text-align: center;">Product Details</h1>
   <h4><p style="color: #fff;"><strong>Name:</strong> <%= @product.name %></p></h4>
@@ -9,4 +10,5 @@
     <%= link_to 'Edit', edit_product_path(@product), class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
     <%= link_to 'Generate Invoice', new_invoice_path(id: @product.id), class: 'btn btn-success', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
   </div>
+</div>
 </div>

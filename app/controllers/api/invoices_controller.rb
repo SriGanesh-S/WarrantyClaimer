@@ -72,6 +72,11 @@ end
 
    def set_invoice
      @invoice=Invoice.find_by(id: params[:id])
+     if ! @invoice
+        render json: {error: "No Invoices Found with given Id #{params[:id]}" }, status:404
+        return
+     end
+
     end
    
 

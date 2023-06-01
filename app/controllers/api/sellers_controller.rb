@@ -70,17 +70,19 @@ class Api::SellersController < Api::ApiController
     
     def seller_products
       seller = Seller.find_by(id: current_user.userable_id )
-      if seller && current_user.seller?
-        products = Product.where(seller_id: params[:id])
-        if products
-          render json:products , status:200
-        else
-          render json:{message:"No products For given Seller Id #{params[:id]}"},status:204 #no_content
+      
+        if seller && current_user.seller?
+          products = Product.where(seller_id: current_user.userable_id )
+          if products
+            render json: products , status:200
+          else
+             render json:{message:"No products For given Seller Id #{params[:id]}"},status:204 #no_content
 
-        end  
-      else
-        render json:{message:"Unauthorised Access to the profile"}, status:403 
-      end
+          end  
+        else
+          render json:{message:"Unauthorised Access to the profile"}, status:403 
+        end
+      
     end
         
     
@@ -89,6 +91,11 @@ class Api::SellersController < Api::ApiController
  private
     def set_seller
         @seller =Seller.find_by(id: params[:id])
+        if !@seller
+          render json:{error:"No seller found with given Id #{params[:id]}"}, status:404
+          return
+        end
+
     end
     def seller_params
         params.require( :seller).permit(:name, :email,:organisation_name,:designation,:description,:primary_address_id,:phone_no)

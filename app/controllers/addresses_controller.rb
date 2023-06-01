@@ -60,7 +60,7 @@ class AddressesController < ApplicationController
       @address.addressable_id=current_user.userable_id
       @address.addressable_type=current_user.role
       if @address.update(address_params)
-        format.html { redirect_to address_url(@address), notice: "Address was successfully updated." }
+        format.html { redirect_to change_primary_address_path, notice: "Address was successfully updated." }
         format.json { render :show, status: :ok, location: @address }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -99,11 +99,8 @@ class AddressesController < ApplicationController
       return
     else
      current_user.userable.update(primary_address_id: @address.id)
-     if current_user.customer?
-        redirect_to cust_dashboard_path
-      elsif current_user.seller?
-        redirect_to seller_dashboard_path
-      end
+     flash.now[:notice]="Primary address changed successfully"
+     redirect_to change_primary_address_path
    end
   end
 

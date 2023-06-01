@@ -1,8 +1,9 @@
+<div class="container">
 <div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
   <h1 style="color: #fff; text-align: center;">Edit Sellers Profile</h1>
 <%if @seller.errors.any?%>
     <% @seller.errors.full_messages.each do|message| %>
-     <p><%=message%></p>
+       <%flash.now[:alert]=message%>
     <%end%>
  <%end%>
 <%=form_with model: @seller do|form|%>
@@ -21,4 +22,5 @@
 </div>
 <%=form.submit %>
 <%end%>
+</div>
 </div>

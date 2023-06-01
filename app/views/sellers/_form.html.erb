@@ -1,6 +1,6 @@
 <%if @seller.errors.any?%>
     <% @seller.errors.full_messages.each do|message| %>
-     <p><%=message%></p>
+      <%flash.now[:alert]=message%>
     <%end%>
  <%end%>
 <%=form_with model: @seller do|form|%>

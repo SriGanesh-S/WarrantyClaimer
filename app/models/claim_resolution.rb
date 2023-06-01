@@ -4,8 +4,8 @@ class ClaimResolution < ApplicationRecord
   validates :status, :description , presence: true
   validates :description , length: {minimum: 10, maximum: 1000}
   #where(status: ["Accepted", "In Progress"])
-  scope :resolved , -> { ClaimResolution.where(status:  ["Accepted","In Progress","Shipped"]) }
-  scope :pending , -> { ClaimResolution.where(status:  ["Rejected","Closed"]) }
+  scope :pending, -> { ClaimResolution.where(status:  ["Accepted","In Progress","Shipped"]) }
+  scope :resolved, -> { ClaimResolution.where(status:  ["Rejected","Closed"]) }
 
 
   before_create :set_resolution_description

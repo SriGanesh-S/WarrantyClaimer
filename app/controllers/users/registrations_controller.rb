@@ -56,10 +56,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @address.addressable_type=params[:user][:role].camelcase
       @address.phone =userable.phone_no
       p "++++++++++++++++++++++++++++++" 
-      p @address.save
+     if !  @address.save
+         flash[:alert]="Invalid Address "
+         render :new
+         return
     
+     end
       userable.primary_address_id= @address.id
-      p userable.save
+
+      if ! userable.save
+        flash[:alert]="Invalid user credentials "
+         render :new
+         return
+    
+     end
+
       p "xxxxxxxxxxxxxxxxxxxxxxxx"
       p @address
       p @userable

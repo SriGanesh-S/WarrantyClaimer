@@ -1,35 +1,62 @@
-<div class="login-container" style="background-color: rgba(0, 0, 0, 0.5); width: 50%; margin: 100px auto 0px auto; font-size: 18px; border-radius: 10px;">
-  <div class="login-form" style="margin: 20px;">
-    <h2 style="color: #fff; text-align: center; padding: 20px;">Sign up</h2>
+<style>
+  .card {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  #customer_details{
+display: none;
+}
+#seller_details{
+display:none;
+}
+#additional_details{
+display:none;
+}
+#address{
+display:none;
+}
+
+</style>
+
+<div class="login-container" style="width: 50%; margin: 100px auto 0px auto;">
+  <div class="login-form">
+   
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="field" style="margin-bottom: 10px;">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
+      <div class="card">
+        <b><h2 style="text-align:center;">Sign Up</h2></b>
+        <div class="field">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%= f.password_field :password, autocomplete: "new-password", required: true, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :role %><br />
+          <%= f.select :role, options_for_select([['Seller', 'Seller'], ['Customer', 'Customer']]), { :multiple => false, include_blank: 'Select'}, {class: "form-select shadow shadow-sm ", required: true,id: "role" , onchange:"user_type()",onload:"user_type()"} %>
+        </div>
       </div>
 
-      <div class="field" style="margin-bottom: 10px;">
-        <%= f.label :password %>
-        <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password", required: true, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
-      </div>
-
-      <div class="field" style="margin-bottom: 10px;">
-        <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
-      </div>
-
-      <div class="field" style="margin-bottom: 10px;">
-        <%= f.label :role %><br />
-        <%= f.select :role, [['Seller', 'Seller'], ['Customer', 'Customer']], class: "form-control", required: true, style: "background-color: charcoal; padding: 5px;" %>
-      </div>
-
-      <fieldset>
-        <legend><b>Additional Details</b></legend>
+      <div class="card" id="additional_details">
+        <h3>Additional Details</h3>
         <%= fields_for :details do |d| %>
           <div class="field">
             <%= d.label :name %><br />
@@ -41,12 +68,10 @@
             <%= d.number_field :phone_no, autocomplete: "phone_no", class: "form-control shadow shadow-sm", required: true, style: "background-color: charcoal; padding: 5px;" %>
           </div>
         <% end %>
-      </fieldset>
+      </div>
 
-      <br><br>
-
-      <fieldset>
-        <legend><b>Customer Details</b> (Fill Only if you are a Customer)</legend>
+      <div class="card" id="customer_details">
+        <h3>Customer Details</h3>
         <%= fields_for :customer_details do |cd| %>
           <div class="field">
             <%= cd.label :gender %><br>
@@ -59,29 +84,27 @@
             <%= cd.number_field :age, autocomplete: "email", class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
           </div>
         <% end %>
-      </fieldset>
+      </div>
 
-      <br><br>
+      <div class="card" id="seller_details">
+        <h3>Seller Details</h3>
+        <%= fields_for :seller_details do |sd| %>
+          <div class="field">
+            <%= sd.label :organisation_name %><br>
+            <%= sd.text_field :organisation_name, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
+          </div>
 
-      <legend><b>Seller Details</b> (Fill Only if you are a Seller)</legend>
-      <%= fields_for :seller_details do |sd| %>
-        <div class="field">
-          <%= sd.label :organisation_name %><br>
-          <%= sd.text_field :organisation_name, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
-        </div>
+          <br>
 
-        <br>
+          <div class="field">
+            <%= sd.label :designation %><br>
+            <%= sd.text_field :designation, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
+          </div>
+        <% end %>
+      </div>
 
-        <div class="field">
-          <%= sd.label :designation %><br>
-          <%= sd.text_field :designation, class: "form-control shadow shadow-sm", style: "background-color: charcoal; padding: 5px;" %>
-        </div>
-
-        <br>
-      <% end %>
-
-      <fieldset>
-        <legend><b>Address</b></legend>
+      <div class="card" id="address">
+        <h3>Address</h3>
         <%= fields_for :address do |a| %>
           <%= a.label :door_no %><br>
           <%= a.text_field :door_no, class: "form-control", required: true, style: "background-color: charcoal; padding: 5px;" %>
@@ -103,15 +126,16 @@
           <%= a.number_field :pin_code, class: "form-control", required: true, style: "background-color: charcoal; padding: 5px;" %>
           <br>
         <% end %>
-      </fieldset>
+      </div>
 
-       <div class="actions" style="display: flex; justify-content: space-between; align-items: center;">
-        <%= f.submit "Sign up", style: "background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none;", class: 'btn btn-primary' %>
-        <p class="fs-6" style="margin: 0;">Already Have an Account?
-          <%= link_to 'Sign In', new_user_session_path, class: 'login-link', style: 'color:#fff;' %>
+      <div class="actions" style="display: flex; justify-content: space-between; align-items: center;">
+        <%= f.submit "Sign up", style: "background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; margin-left: 25px", class: 'btn btn-primary btn-lg ' %>
+        <p class="fs-6" style="margin-right:25px ;">Already Have an Account?
+          <%= link_to 'Sign In', new_user_session_path %>
         </p>
       </div>
     <% end %>
-  
   </div>
 </div>
+
+<%= javascript_include_tag "registration" %>

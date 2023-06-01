@@ -1,25 +1,31 @@
+<div class="container">
 <div class="col-lg-10" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px; margin-top: 50px;">
   <h1 style="color: #fff; text-align: center;">Edit Claim Resolution</h1>
 <div class="col-lg-10" >
 <%= form_with(model: @claim_resolution) do |form| %>
   <% if @claim_resolution.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(claim_resolution.errors.count, "error") %> prohibited this claim_resolution from being saved:</h2>
+      
 
       <ul>
         <% @claim_resolution.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+           <%flash.now[:alert]=error.full_message%>
         <% end %>
       </ul>
     </div>
   <% end %>
   
 <div class="form-group">
-    <strong> <%= form.label :status %> </strong> 
-     <%= form.select :status,[['In Progress', 'In Progress'], ['Accepeted', 'Accepted'], ['Rejected', 'Rejected'], ['Shipped', 'Shipped'], ['Closed', 'Closed']],class:"form-control" %>
+    <strong> <%= form.label :status,"Status  :" %> </strong> 
+    <%= form.select :status, options_for_select([['In Progress', 'In Progress'], ['Accepeted', 'Accepted'], ['Rejected', 'Rejected'], ['Shipped', 'Shipped'], ['Closed', 'Closed']]), { :multiple => false, include_blank: 'Select'}, {class: "form-select shadow shadow-sm ", required: true} %>
+    <%
+=begin%>
+ # <%= form.select :status, %> 
+<%
+=end%>
 </div>
 <div class="form-group">
-   <strong>   <%= form.label :Description %></strong> 
+   <strong>   <%= form.label :Description, "Description  :" %></strong> 
      <%= form.text_field :description ,class:"form-control"%>
 </div>
 
@@ -32,4 +38,5 @@
 </div>
 
 
+</div>
 </div>

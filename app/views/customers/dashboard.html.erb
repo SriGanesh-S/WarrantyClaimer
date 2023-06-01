@@ -1,9 +1,10 @@
 <div class="container">
-    <h1 class="mt-4">Welcome to the Customer Dashboard</h1>
+   <b> <h1 class="mt-4">Welcome to the Customer Dashboard</h1> <b>
   
-    <h2 class="mt-4">Your Purchases</h2>
+    
      
-    <% if @invoices.any? %>
+  <% if @invoices.size != 0 %>
+      <h2 class="mt-4">Your Purchases</h2>
       <table class="table mt-3">
         <thead class="thead-dark">
           <tr >
@@ -32,7 +33,9 @@
         <% else %>
           <%= link_to "Claim #{resolution.status}", claim_resolution_path(resolution), class: 'btn btn-primary' %>
          <%end%>
-        <% else %>
+      <%elsif invoice.purchase_date <1.year.ago%>
+            <button type="button" class="btn btn-secondary btn" disabled>Claim Expired</button>
+       <% else %>
           <%= link_to 'Claim Warranty', new_warranty_claim_path(id: invoice.id), class: 'btn btn-success' ,notice: 'Please note that the shipment will be delivered to your primary address.'%>
         <% end %>
 
@@ -40,11 +43,13 @@
              
     </td>
     </tr>
-          <% end %>
+     <% end %>
         </tbody>
       </table>
+
     <% else %>
-      <p>No warranty claims found.</p>
+    <br> <br>
+      <h4><b><p> Opps! No Products  Purchased </p><b></h4>
     <% end %>
   
     

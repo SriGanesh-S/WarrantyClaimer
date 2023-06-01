@@ -1,6 +1,6 @@
 <%if @invoice.errors.any?%>
     <% @invoice.errors.full_messages.each do|message| %>
-     <p><%=message%></p>
+      <%flash.now[:alert]=message%>
     <%end%>
  <%end%>
 <%=form_with model: @invoice  ,url: {action: :generate} do|form|%>

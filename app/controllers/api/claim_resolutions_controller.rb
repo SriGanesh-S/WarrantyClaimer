@@ -69,22 +69,29 @@ class Api::ClaimResolutionsController< Api::ApiController
     def default_claim_resolution
       
       claim_resolution = ClaimResolution.find_by(id: params[:id])
-      if current_user.seller? && current_user.userable.claim_resolutions.include?(claim_resolution)
-        claim_resolution.status="In Progress"
-        claim_resolution.description="Our Team will Validate your claim"
-        claim_resolution.save
-        render json:claim_resolution, status:200
+      if claim_resolution
+        if current_user.seller? && current_user.userable.claim_resolutions.include?(claim_resolution)
+          claim_resolution.status="In Progress"
+          claim_resolution.description="Our Team will Validate your claim"
+          claim_resolution.save
+          render json:claim_resolution, status:200
         
+        else
+          render json:{error: "Fobidden Access to reset the Claim Resolution"}, status: 403
+         end
       else
-        render json:{error: "Fobidden Access to reset the Claim Resolution"}, status: 403
+        render json:{error: "No Claim Resolution found with Id #{params[:id]}"}, status: 404
       end
-    end
-
+    end 
 
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_claim_resolution
         @claim_resolution = ClaimResolution.find_by(id: params[:id])
+        if !@claim_resolution
+          render json:{error: "No Claim Resolution found with Id #{params[:id]}"}, status: 404
+          return 
+        end
       end
   
       # Only allow a list of trusted parameters through.

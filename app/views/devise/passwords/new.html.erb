@@ -1,16 +1,30 @@
-<h2>Forgot your password?</h2>
+<div class="login-container" style="background-color: rgba(0, 0, 0, 0.5); width: 50%; margin: 100px auto 0px auto; font-size: 18px; border-radius: 10px;">
+  <div class="login-form" style="margin: 20px;">
+    <h2 style="color: #fff; text-align: center; padding: 20px;">Forgot your password?</h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Send", class: "btn btn-primary", style: "margin-top:25px" %>
+      </div>
+    <% end %>
+
+    <div class="actions d-flex pt-4 justify-content-between">
+      <p class="fs-6" style="color: #fff">Don't have an account? <b><%= link_to 'Sign Up', new_user_registration_path, style: 'color: #fff;' %></b></p>
+      <p class="fs-6" style="color: #fff">Already have an account?<b><%= link_to 'Log In', new_user_session_path, style: 'color: #fff;' %></b></p>  
+    </div>
+
+  
   </div>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+    
+</div>
+<div class="justify-content-center d-flex">
+      <p class="fs-6" >Didn't receive confirmation instructions? <b><%= link_to 'Resend Email', new_confirmation_path(resource_name) %></b></p>
+    </div>

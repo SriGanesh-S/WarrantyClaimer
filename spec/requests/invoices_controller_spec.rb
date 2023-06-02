@@ -108,7 +108,7 @@ RSpec.describe "Api::InvoicesControllers", type: :request do
 
       context "when authenticated seller_user creates invoice with invalid params" do
         before do
-            post "/api/invoices/" , params: {access_token: seller_user_token.token , invoice:{purchase_date:nil, product_id:product.id , cust_email:customer.email}}
+            post "/api/invoices/" , params: {access_token: seller_user_token.token , invoice:{purchase_date:"2025-03-23", product_id:product.id , cust_email:customer.email}}
         end
         it "return status 422" do
           expect(response).to have_http_status(422)

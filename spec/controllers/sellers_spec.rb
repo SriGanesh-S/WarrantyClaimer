@@ -6,8 +6,11 @@ RSpec.describe SellersController, type: :controller do
     let!(:user_seller){create(:user,:for_sellers , userable: seller )}
     describe 'GET Index' do
      context 'Not Logged in' do
-        it 'render index' do
+        before do
+
              get :index
+        end
+        it 'render index' do
              expect(response).to render_template :index
         end
         
@@ -17,18 +20,22 @@ RSpec.describe SellersController, type: :controller do
 
     describe 'GET Show' do
         context 'when seller tries to access their profile' do
+        before do
+                 sign_in  user_seller
+                 get :show, params:{id: seller.id}
+        end
           it 'render show' do
-            sign_in  user_seller
-            get :show, params:{id: seller.id}
             expect(response).to render_template :show
 
            end
         end
 
         context 'when seller tries to access a profile of another seller' do
+            before do
+                   sign_in user_seller
+                 get :show, params: { id: seller.id + 1  }
+            end
             it 'redirect to root path' do
-                sign_in user_seller
-                get :show, params: { id: seller.id + 1  }
                 expect(response).to redirect_to(root_path)
              end
         end
@@ -36,9 +43,11 @@ RSpec.describe SellersController, type: :controller do
        
 
         context 'when seller tries to access a profile with random id ' do
+            before do
+                   sign_in user_seller
+                 get :show, params: { id: 456 }
+            end
             it 'redirect to root path' do
-                sign_in user_seller
-                get :show, params: { id: 456 }
                 expect(response).to redirect_to(root_path)
              end
         end
@@ -47,18 +56,22 @@ RSpec.describe SellersController, type: :controller do
 
     describe 'PATCH update' do
         context 'when seller updates profile with invalid parameters' do 
+            before do
+                   sign_in  user_seller
+                 patch :update ,params: {seller:{name: '12345'}, id: seller.id }
+            end
             it  'render edit' do
-                sign_in  user_seller
-                patch :update ,params: {seller:{name: '12345'}, id: seller.id }
                 expect(response).to render_template :edit
             end
 
         end
     
         context 'when seller updates profile with valid parameters' do 
+            before do
+                   sign_in  user_seller
+                 patch :update ,params: {seller:{age: 21}, id: seller.id}
+            end
             it  'render Show path' do
-                sign_in  user_seller
-                patch :update ,params: {seller:{age: 21}, id: seller.id}
                 expect(response).to render_template :show
             end
 
@@ -69,34 +82,43 @@ RSpec.describe SellersController, type: :controller do
 
     describe 'PUT edit' do
         context 'when user not signed in' do 
+            before do
+
+                 put :edit ,params: { id: seller.id }
+            end
             it  'redirect to root path' do
-                put :edit ,params: { id: seller.id }
                 expect(response).to redirect_to(root_path)
             end
 
         end
 
         context 'when user signed in as customer' do 
+            before do
+                   sign_in user_customer
+                 put :edit ,params: { id: seller.id }
+            end
             it  'redirect to root path' do
-                sign_in user_customer
-                put :edit ,params: { id: seller.id }
                 expect(response).to redirect_to(root_path)
             end
 
         end
     
         context 'when seller is signed in and edit his profile' do 
+            before do
+                   sign_in  user_seller
+                 put :edit ,params: {id: seller.id}
+            end
             it  'render edit page' do
-                sign_in  user_seller
-                put :edit ,params: {id: seller.id}
                 expect(response).to render_template :edit
             end
 
         end
         context 'when seller is signed in and try to edit others profile' do 
+            before do
+                   sign_in  user_seller
+                 put :edit ,params: {id: seller.id  + 1}
+            end
             it  'render root page' do
-                sign_in  user_seller
-                put :edit ,params: {id: seller.id  + 1}
                 expect(response).to redirect_to(root_path)
             end
 
@@ -107,17 +129,22 @@ RSpec.describe SellersController, type: :controller do
 
     describe 'GET dashboard' do
         context 'when user not signed in' do 
+            before do
+
+                 get :dashboard 
+            end
             it  'redirect to root path' do
-                get :dashboard 
                 expect(response).to redirect_to(root_path)
             end
 
         end
 
         context 'when user signed in as customer' do 
+            before do
+                   sign_in user_customer
+                 get :dashboard 
+            end
             it  'redirect to root path' do
-                sign_in user_customer
-                get :dashboard 
                 
                 expect(response).to redirect_to(root_path)
             end
@@ -125,9 +152,11 @@ RSpec.describe SellersController, type: :controller do
         end
     
         context 'when user signed in as seller' do 
+            before do
+                   sign_in  user_seller
+                 get :dashboard
+            end
             it  'render dashboard page' do
-                sign_in  user_seller
-                get :dashboard
                 expect(response).to render_template :dashboard
             end
 

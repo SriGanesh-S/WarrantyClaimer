@@ -13,7 +13,7 @@ class ClaimResolutionsController < ApplicationController
       unless current_user.userable.claim_resolutions.include?(@claim_resolution)
         
         redirect_to root_path
-        flash[:notice] = "You are not authorized to perform this action."
+        flash[:notice] = "You are not authorized."
         return
       end
     end
@@ -26,7 +26,7 @@ class ClaimResolutionsController < ApplicationController
     # GET /claim_resolutions/1/edit
     def edit
       unless current_user.userable.claim_resolutions.include?(@claim_resolution)
-        flash[:notice] = "You are not authorized to perform this action."
+        flash[:notice] = "You are not authorized."
         redirect_to root_path
         return
       end
@@ -36,7 +36,7 @@ class ClaimResolutionsController < ApplicationController
     def create
        warranty_claim=WarrantyClaim.find_by(id: params[:claim_resolution][:warranty_claim_id])
       unless current_user.userable.warranty_claims.include?(warranty_claim)
-        flash[:notice] = "You are not authorized to perform this action."
+        flash[:notice] = "You are not authorized ."
         redirect_to root_path
         return
       end
@@ -90,7 +90,7 @@ class ClaimResolutionsController < ApplicationController
 
       def authorize_seller
         unless  (user_signed_in? && current_user.seller?)
-          flash[:notice] = "You are not authorized to perform this action."
+          flash[:alert] = "You are not authorized ."
           redirect_to root_path
           return
         end

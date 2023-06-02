@@ -5,6 +5,7 @@ FactoryBot.define do
     end
     password { "111111" }
     password_confirmation { "111111" }
+    confirmed_at {Time.current}
     
     for_customers
 
@@ -19,6 +20,7 @@ FactoryBot.define do
       role{'Seller'}
 
     end
+
 
 
 

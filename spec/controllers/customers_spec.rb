@@ -22,7 +22,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when customer tries to access their profile' do
         before do 
                   sign_in  user_customer
-               get :show, params:{id: user_customer.userable_id}
+                   get :show, params:{id: user_customer.userable_id}
         end 
         it 'render show' do
             expect(response).to render_template :show
@@ -33,7 +33,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when customer tries to access a profile of another customer' do
             before do 
                     sign_in user_customer
-               get :show, params: { id: customer.id+1 }
+                 get :show, params: { id: customer.id+1 }
             end 
             it 'redirect to root path' do
                 expect(response).to redirect_to(root_path)
@@ -43,7 +43,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when customer tries to access a profile with random id ' do
             before do 
                     sign_in user_customer
-               get :show, params: { id: 3678 }
+                 get :show, params: { id: 3678 }
             end 
             it 'redirect to root path' do
                 expect(response).to redirect_to(root_path)
@@ -58,7 +58,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when customer updates profile with invalid parameters' do 
             before do 
                     sign_in  user_customer
-               patch :update ,params: {customer:{name: '12345'}, id: customer.id }
+                 patch :update ,params: {customer:{name: '12345'}, id: customer.id }
             end 
             it  'render edit ' do
                 expect(response).to render_template :edit
@@ -69,7 +69,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when customer updates profile with valid parameters' do 
             before do 
                     sign_in  user_customer
-               patch :update ,params: {customer:{age: 14}, id: user_customer.userable.id}
+                 patch :update ,params: {customer:{age: 14}, id: user_customer.userable.id}
             end 
             it  'render show ' do
                 expect(response).to render_template :show
@@ -95,7 +95,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when user signed in as seller' do 
             before do 
                     sign_in user_seller
-               put :edit ,params: { id: customer.id }
+                 put :edit ,params: { id: customer.id }
             end 
             it  'redirect to root path' do
                 expect(response).to redirect_to(root_path)
@@ -106,7 +106,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when customer is signed in and edit his profile' do 
             before do 
                     sign_in  user_customer
-               put :edit ,params: {id: user_customer.userable.id}
+                 put :edit ,params: {id: user_customer.userable.id}
             end 
             it  'render edit page' do
                 expect(response).to render_template :edit
@@ -116,7 +116,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when customer is signed in and try to edit others profile' do 
             before do 
                     sign_in  user_customer
-               put :edit ,params: {id: customer.id + 3}
+                 put :edit ,params: {id: customer.id + 3}
             end 
             it  'render root page' do
                 expect(response).to redirect_to(root_path)
@@ -142,7 +142,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when user signed in as seller' do 
             before do 
                     sign_in user_seller
-               get :dashboard 
+                 get :dashboard 
             end 
             it  'redirect to root path' do
                 
@@ -154,7 +154,7 @@ RSpec.describe CustomersController, type: :controller do
         context 'when user signed in as customer ' do 
             before do 
                     sign_in  user_customer
-               get :dashboard
+                 get :dashboard
             end 
             it  'render dashboard page' do
                 expect(response).to render_template :dashboard

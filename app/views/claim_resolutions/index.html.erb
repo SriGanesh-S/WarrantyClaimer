@@ -2,7 +2,7 @@
 <div class="col-lg-25">
   <br>
   <h1 class="mb-3">Claim Resolutions</h1>
-
+<%if @claim_resolutions.size != 0%>
   <table class="table mt-3">
     <thead class="thead-dark">
       <tr>
@@ -34,6 +34,11 @@
       <% end %>
     </tbody>
   </table>
+
+  <%else%>
+     
+       <h4> No Claim Resolutions Found !!</h4>
+    <%end%>
 
   <br>
 </div>

@@ -20,4 +20,5 @@ class Customer < ApplicationRecord
     scope :has_purchased, -> { joins(:invoices).distinct }
     scope :not_purchased, -> { left_outer_joins(:invoices).where(invoices: { id: nil }) }
 
+
 end

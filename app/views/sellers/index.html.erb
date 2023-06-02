@@ -14,7 +14,7 @@
          <td> <%= seller.email %> </td>
          <td> <%= link_to 'View',seller %> </td>
           <td> <%= link_to 'Edit', edit_seller_path(seller)  %> </td>
-          <td> <%= link_to 'Delete', seller, method: :delete, data: {confirm: 'Are You Sure? Do you want to delete it' } %> </td>
+          
        </tr>
        <%end%> 
        <tr> <td> <%= link_to 'View Claim Tickets', claim_statuses_path()  %> </td></tr>

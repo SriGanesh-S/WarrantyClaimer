@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_22_083032) do
+ActiveRecord::Schema.define(version: 2023_06_02_055854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,9 +129,9 @@ ActiveRecord::Schema.define(version: 2023_05_22_083032) do
 
   create_table "sellers", force: :cascade do |t|
     t.string "name"
-    t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
     t.string "organisation_name"
     t.string "designation"
     t.bigint "phone_no"
@@ -150,6 +150,10 @@ ActiveRecord::Schema.define(version: 2023_05_22_083032) do
     t.string "role"
     t.string "userable_type"
     t.integer "userable_id"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

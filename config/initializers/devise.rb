@@ -25,6 +25,9 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'warranty_cliamer@gmail.com'
+  config.navigational_formats = ['*/*', :html, :turbo_stream]
+
+
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'

@@ -10,7 +10,7 @@ class AddressesController < ApplicationController
   # GET /addresses/1 or /addresses/1.json
   def show
     if !current_user.userable.addresses.include?(@address)
-      flash[:notice] = "OOPs!You Don't Have access to the Address."
+      flash[:alert] = "OOPs!You are not authorised "
       redirect_to root_path
       return 
     end
@@ -25,7 +25,7 @@ class AddressesController < ApplicationController
   # GET /addresses/1/edit
   def edit
     if !current_user.userable.addresses.include?(@address)
-      flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
+      flash[:alert] = "OOPs!You are not authorised"
       redirect_to root_path
       return
     end
@@ -52,7 +52,7 @@ class AddressesController < ApplicationController
   def update
 
     if !current_user.userable.addresses.include?(@address)
-      flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
+      flash[:alert] = "OOPs!You are not authorised."
       redirect_to root_path
     else
 
@@ -94,12 +94,12 @@ class AddressesController < ApplicationController
   def primary_address
     @address = Address.find_by(id: params[:id])
     if  !@address && !current_user.userable.addresses.include?(@address)
-      flash[:notice] = "OOPs!You Don't Have Edit access to the Address."
+      flash[:alert] = "OOPs!You are not authorised."
       redirect_to root_path
       return
     else
      current_user.userable.update(primary_address_id: @address.id)
-     flash.now[:notice]="Primary address changed successfully"
+     flash.now[:alert]="Primary address changed successfully"
      redirect_to change_primary_address_path
    end
   end

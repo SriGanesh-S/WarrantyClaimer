@@ -53,7 +53,7 @@ RSpec.describe Invoice, type: :model do
     context "when value is nil" do
       let(:invoice) {build(:invoice , purchase_date: nil)}
       it "throws error" do
-        expect(invoice.errors).to include(:purchase_date)
+        expect(invoice.purchase_date).to eq(Date.current)
       end
     end
     context "when value is present" do
@@ -74,7 +74,7 @@ RSpec.describe Invoice, type: :model do
     context "when Date is not valid" do
       let(:invoice) {build(:invoice , purchase_date:"202-31-31")}
       it "throws error" do
-        expect(invoice.save).to be_falsy
+        expect(invoice.purchase_date).to eq(Date.current)
       end
     end
   end

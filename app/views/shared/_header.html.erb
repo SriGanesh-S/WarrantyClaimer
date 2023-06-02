@@ -6,9 +6,7 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="<%= root_path %>">Home <span class="sr-only">(current)</span></a>
-      </li>
+     
       <li class="nav-item">
       <div class="nav-link" >
       <%if user_signed_in?%>
@@ -121,7 +119,7 @@
       <li class="nav-item">
         <div class="nav-link" >
         
-             <%= link_to 'Log Out',destroy_user_session_path, method: :delete%>
+             <%= link_to 'Log Out',destroy_user_session_path, method: :delete, data: {confirm:"Are you sure? You Want to Log Out! "}%>
        
          </div>
          

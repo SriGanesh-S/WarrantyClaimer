@@ -64,7 +64,8 @@ class SellersController < ApplicationController
        @invoice_count = current_user.userable.invoices.distinct.count
       #  p"==========="
       #  p @customer_count
-        @warranty_claims = current_user.userable.warranty_claims
+        @warranty_claims = current_user.userable.warranty_claims.where.not(claim_resolution: ClaimResolution.where(status: ["Closed", "Rejected"]))
+
 
       
 

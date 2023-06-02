@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="details-actions" style="margin-top: 20px; text-align: center;">
-    <%= link_to 'Back', warranty_claims_path, class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none;' %>
+    <%= link_to 'Back',:back, class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none;' %>
     <% if current_user.customer? &&   ["In Progress","Accepted"].include?(@warranty_claim.claim_resolution.status)  %>
     <%= link_to 'Edit', edit_warranty_claim_path(@warranty_claim), class: 'btn btn-primary', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>
     <%= link_to 'Delete', warranty_claim_path(@warranty_claim), method: :delete, class: 'btn btn-danger', style: 'background-color: charcoal; padding: 5px 20px; border-radius: 5px; border: none; color: #fff; text-decoration: none; margin-left: 10px;' %>

@@ -9,6 +9,9 @@
      <%= form.label :Problem_Description%>
      <%= form.text_area  :problem_description ,class:"form-control" %>
 </div>
-<%=form.submit %>
+<%= link_to 'Back', :back, class: 'btn btn-secondary' %>
+
+<%=form.submit "Update" , class: "btn btn-primary" , style:"margin-left: 20px"%>
+
 </div>
 <%end%>

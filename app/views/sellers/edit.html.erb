@@ -20,7 +20,9 @@
      <%= form.label :Designation %>
      <%= form.text_field :designation ,class: "form-control" %>
 </div>
-<%=form.submit %>
+<%= link_to 'Back', :back, class: 'btn btn-secondary' %>
+
+<%=form.submit "Update" , class: "btn btn-primary" , style:"margin-left: 20px"%>
 <%end%>
 </div>
 </div>

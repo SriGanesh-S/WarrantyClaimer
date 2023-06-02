@@ -42,7 +42,11 @@
 
 
   <div class="actions">
-    <%= form.submit %>
+   
+  <%= link_to 'Back',  change_primary_address_path , class: 'btn btn-secondary' %>
+
+<%=form.submit   class: "btn btn-primary" , style:"margin-left: 20px"%>
+   
   </div>
 <% end %>
 

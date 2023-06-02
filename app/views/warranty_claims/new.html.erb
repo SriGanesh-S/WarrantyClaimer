@@ -12,7 +12,10 @@
      <%= form.text_area  :problem_description ,class:"form-control" %>
 </div>
 <%= form.hidden_field :id , value: @id %>
-<%=form.submit %>
+<%= link_to 'Back', :back, class: 'btn btn-secondary' %>
+
+<%=form.submit "Create" , class: "btn btn-primary" , style:"margin-left: 20px"%>
+
 </div>
 <%end%>
 </div>

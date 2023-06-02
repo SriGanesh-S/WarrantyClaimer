@@ -13,5 +13,7 @@
      <%= form.date_field :purchase_date ,class:"form-control" %>
 </div>
 <%= form.hidden_field :id , value: @product.id %>
-<%=form.submit %>
+<%= link_to 'Back', :back, class: 'btn btn-secondary' %>
+
+<%=form.submit "Create" , class: "btn btn-primary" , style:"margin-left: 20px"%>
 <%end%>

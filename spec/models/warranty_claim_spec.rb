@@ -53,4 +53,20 @@ RSpec.describe WarrantyClaim, type: :model do
     end
   end
 
+
+  describe "destroy dependency" do
+
+    context "when warranty_claim is deleted" do
+      let(:warranty_claim) {create(:warranty_claim)}
+      let(:claim_resolution) {create(:claim_resolution , warranty_claim_id: warranty_claim_id )}
+      before do
+        warranty_claim.destroy
+      end
+      it "Resolution  also deleted" do
+       
+        expect(ClaimResolution.find_by(warranty_claim_id: warranty_claim.id)).to be(nil)
+      end
+      end
+    end
+
 end

@@ -109,4 +109,21 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
+
+  describe "callback" do
+
+   
+    context "set_date" do
+      let(:invoice) {create(:invoice,purchase_date: nil)}
+     
+      it "Assigns  current Date" do
+         invoice.set_date
+        expect(invoice.purchase_date).to eq(Date.current)
+      end
+    end
+
+
+
+end
+
 end

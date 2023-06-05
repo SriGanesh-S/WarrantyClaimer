@@ -54,7 +54,7 @@ RSpec.describe InvoicesController, type: :controller do
                  post :generate , params:{ invoice:{id:product.id,purchase_date: invoice.purchase_date,cust_email: "1asd@gamil.com",product:product,customer:customer }} 
             end 
                 it "Flash Message " do
-                    expect(flash[:notice]).to match( /Enter valid Customer mail /)
+                    expect(flash[:alert]).to match( /Enter valid Customer mail /)
                  end
             end
 

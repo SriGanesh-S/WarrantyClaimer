@@ -24,9 +24,12 @@ ActiveAdmin.register Customer do
     column  :age
     column :gender
     column :phone_no
+   
     column "Primary Address" , :id, sortable: :id do |i|
-      link_to i.primary_address_id , admin_address_path(i.primary_address_id)
-    end
+      if i.primary_address_id
+        link_to i.primary_address_id , admin_address_path(i.primary_address_id)
+     end
+   end
   end
 
   scope :all

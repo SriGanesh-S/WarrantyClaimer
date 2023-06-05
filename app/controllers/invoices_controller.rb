@@ -21,7 +21,7 @@ class InvoicesController < ApplicationController
     @product = Product.find_by(id: params[:invoice][:id])
     unless (@product!=nil && current_user.userable.products.include?(@product))
       # p "\n \n product is nil\n \n \n "
-      flash[:alert] = "You are not authorized to perform this action."
+      flash[:alert] = "You are not authorized "
       render :new
       return
     end
@@ -45,7 +45,7 @@ class InvoicesController < ApplicationController
         render :new , alert: "Failed to generate invoice."
     end
   else
-    flash[:notice]="Enter valid Customer mail " 
+    flash.now[:alert]="Enter valid Customer mail " 
   end 
    end
 

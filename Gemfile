@@ -67,4 +67,3 @@ gem 'activeadmin', '~> 2.13', '>= 2.13.1'
 gem 'doorkeeper'
 
 gem 'rails-controller-testing'
-

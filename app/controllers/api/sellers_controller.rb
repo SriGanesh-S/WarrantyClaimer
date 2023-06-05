@@ -51,6 +51,7 @@ class Api::SellersController < Api::ApiController
     def destroy
        
      if @seller &&  @seller.id==current_user.userable_id && current_user.seller?
+         
            if(@seller.destroy)
              render json:{ message: "Seller Deleted successfully"},status:200 #ok
            else
@@ -83,6 +84,20 @@ class Api::SellersController < Api::ApiController
           render json:{message:"Unauthorised Access to the profile"}, status:403 
         end
       
+    end
+
+    def stats  
+      if current_user.seller?
+        customer_count = current_user.userable.customers.distinct.count
+        product_count = current_user.userable.products.distinct.count
+        invoice_count = current_user.userable.invoices.distinct.count
+       render json:{ customer_reached: customer_count, product_listed: product_count, product_sold: invoice_count  } , status:200
+      
+      else
+        render json:{message:"Unauthorised Access "}, status:403 
+      end
+
+
     end
         
     

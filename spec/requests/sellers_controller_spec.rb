@@ -200,7 +200,7 @@ RSpec.describe "Api::SellersControllers", type: :request do
       
         context "when user is not authenticated" do
           before do 
-             get "/api/sellers/#{seller.id}"
+             get "/api/sellers/seller_products"
           end
           it "returns status 401" do
             expect(response).to have_http_status(401)
@@ -226,5 +226,35 @@ RSpec.describe "Api::SellersControllers", type: :request do
         end
     end
 
+    describe "get /sellers#seller_products" do
+      
+      
+      context "when user is not authenticated" do
+        before do 
+           get "/api/sellers/stats"
+        end
+        it "returns status 401" do
+          expect(response).to have_http_status(401)
+        end
+      end
+
+      context "when authnticated customer_user accesses seller stats" do
+        before do 
+           get "/api/sellers/stats" , params: { access_token: customer_user_token.token }
+        end
+        it "returns status 403" do
+          expect(response).to have_http_status(403)
+        end
+      end
+
+      context "when authenticated seller_user accesses seller stats" do
+        before do 
+           get "/api/sellers/stats", params: { access_token: seller_user_token.token}
+        end
+        it "returns status 200" do
+          expect(response).to have_http_status(200)
+        end
+      end
+  end
 
 end

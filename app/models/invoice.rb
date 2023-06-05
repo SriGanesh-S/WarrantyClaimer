@@ -12,7 +12,12 @@ class Invoice < ApplicationRecord
 
   scope :has_claimed, -> { joins(:warranty_claim).distinct }
   scope :not_claimed, -> { left_outer_joins(:warranty_claim).where(warranty_claim: { id: nil }) }
+def set_date
+   if self.purchase_date == nil
+    self.purchase_date=Date.current
+   end
 
+  end
 
   private
 
@@ -22,12 +27,7 @@ class Invoice < ApplicationRecord
     end
   end
 
-  def set_date
-   if self.purchase_date == nil
-    self.purchase_date=Date.current
-   end
-
-  end
+  
 
   
 

@@ -28,7 +28,7 @@ class Api::ClaimResolutionsController< Api::ApiController
       if current_user.seller? && current_user.userable.warranty_claims.include?(warranty_claim)
         claim_resolution = ClaimResolution.new(claim_resolution_params)
         if (claim_resolution.save)
-          render json:claim_resolution, status: 201#created
+          render json:claim_resolution, status: 200#created
         else
           render json:{error: claim_resolution.errors.full_messages},  status:422 #unprocessable_entity
         end
@@ -42,7 +42,7 @@ class Api::ClaimResolutionsController< Api::ApiController
     def update
       if current_user.seller? && current_user.userable.claim_resolutions.include?(@claim_resolution)
         if(@claim_resolution.update(claim_resolution_params))
-           render json:@claim_resolution, status: 202#accepted
+           render json:@claim_resolution, status: 200#accepted
         else
            render json:{error: @claim_resolution.errors.full_messages}, status:422 #unprocessable_entity
          end

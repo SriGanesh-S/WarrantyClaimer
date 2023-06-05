@@ -15,7 +15,7 @@ class Api::SellersController < Api::ApiController
         seller = Seller.new(seller_params)
         
         if(seller.save)
-            render json:seller , status: 201#created
+            render json:seller , status: 200#created
         else
             render json:{error: seller.errors.full_messages},status:422 #unprocessable_entity
         end

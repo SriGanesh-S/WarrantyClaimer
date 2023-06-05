@@ -99,7 +99,7 @@ RSpec.describe "Api::InvoicesControllers", type: :request do
 
       context "when authenticated customer_user accesses create" do
         before do
-            post "/api/invoices/" , params: { access_token: customer_user_token.token, invoice:{purchase_date:"2023-01-01", product_id:product.id , cust_email:"abc@gmail.com"}}
+            post "/api/invoices/" , params: { access_token: customer_user_token.token, invoice:{purchase_date:"2003-01-01", product_id:product.id , cust_email:"abc@gmail.com"}}
         end
         it "return status code 403" do
           expect(response).to have_http_status(403)
@@ -108,7 +108,7 @@ RSpec.describe "Api::InvoicesControllers", type: :request do
 
       context "when authenticated seller_user creates invoice with invalid params" do
         before do
-            post "/api/invoices/" , params: {access_token: seller_user_token.token , invoice:{purchase_date:"2025-03-23", product_id:product.id , cust_email:customer.email}}
+            post "/api/invoices/" , params: {access_token: seller_user_token.token , invoice:{purchase_date:"2050-03-23", product_id:product.id , cust_email:customer.email}}
         end
         it "return status 422" do
           expect(response).to have_http_status(422)
@@ -117,7 +117,7 @@ RSpec.describe "Api::InvoicesControllers", type: :request do
 
       context "when authenticated seller_user creates invoice with invalid customer" do
         before do
-            post "/api/invoices/" , params: {access_token: seller_user_token.token , invoice:{purchase_date:"2023-01-01", product_id:product.id , cust_email:"abc@gmail.com"}}
+            post "/api/invoices/" , params: {access_token: seller_user_token.token , invoice:{purchase_date:"2003-01-01", product_id:product.id , cust_email:"abc@gmail.com"}}
         end
         it "return status 404" do
           expect(response).to have_http_status(404)
@@ -127,10 +127,10 @@ RSpec.describe "Api::InvoicesControllers", type: :request do
 
       context "when authenticated seller_user accesses creates invoice with valid params" do
         before do
-            post"/api/invoices/" , params: {access_token: seller_user_token.token ,   invoice:{purchase_date:"2023-04-02", product_id:product.id , cust_email:customer.email}}
+            post"/api/invoices/" , params: {access_token: seller_user_token.token ,   invoice:{purchase_date:"2003-04-02", product_id:product.id , cust_email:customer.email}}
         end
-        it "return status 202" do
-          expect(response).to have_http_status(201)
+        it "return status 200" do
+          expect(response).to have_http_status(200)
         end
 
       end
@@ -169,10 +169,10 @@ RSpec.describe "Api::InvoicesControllers", type: :request do
   
         context "when authenticated seller_user accesses update with valid params" do
           before do
-              patch "/api/invoices/#{invoice.id}" , params: {access_token: seller_user_token.token ,  invoice:{puchase_date: "2022-04-02"}}
+              patch "/api/invoices/#{invoice.id}" , params: {access_token: seller_user_token.token ,  invoice:{puchase_date: "2002-04-02"}}
           end
-          it "return status 202" do
-            expect(response).to have_http_status(202)
+          it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end

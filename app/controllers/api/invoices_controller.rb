@@ -16,7 +16,7 @@ class Api::InvoicesController < Api::ApiController
             invoice=Invoice.new(create_params)
             invoice.customer_id=customer.id   
             if (invoice.save)
-                render json:invoice, status: 201#created
+                render json:invoice, status: 200#created
             else
                 render json:{error: invoice.errors.full_messages},  status:422 #unprocessable_entity
             end
@@ -40,7 +40,7 @@ class Api::InvoicesController < Api::ApiController
 def update
     if current_user.seller?  && current_user.userable.invoices.include?(@invoice)
         if(@invoice.update(create_params))
-           render json:@invoice , status: 202#accepted
+           render json:@invoice , status: 200#accepted
         else
            render json:{error: @invoice.errors.full_messages}, status:422 #unprocessable_entity
          end

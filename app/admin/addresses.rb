@@ -19,7 +19,7 @@ ActiveAdmin.register Address do
     column "Address ID" , :id, sortable: :id do |i|
       link_to i.id , admin_address_path(i.id)
     end
-    column "Name" , :addressable, sortable: :addressable
+    column "Name" , :addressable
     column "Role" , :addressable_type
     column :door_no
     column :street
@@ -33,7 +33,7 @@ ActiveAdmin.register Address do
   scope :sellers
 
   
-  filter :dooe_no
+  filter :door_no
   filter :street
   filter :district
   filter :state

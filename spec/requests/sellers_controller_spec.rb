@@ -226,7 +226,7 @@ RSpec.describe "Api::SellersControllers", type: :request do
         end
     end
 
-    describe "get /sellers#seller_products" do
+    describe "get /sellers#stats" do
       
       
       context "when user is not authenticated" do

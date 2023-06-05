@@ -117,8 +117,8 @@ RSpec.describe "Api::ProductsControllers", type: :request do
         before do
            post"/api/products/" , params: {access_token: seller_user_token.token ,  product:{name: "product A", category:"category A", seller: seller}}
         end
-        it "return status 202" do
-          expect(response).to have_http_status(201)
+        it "return status 200" do
+          expect(response).to have_http_status(200)
         end
 
       end
@@ -174,8 +174,8 @@ RSpec.describe "Api::ProductsControllers", type: :request do
           before do
              patch "/api/products/#{product.id}" , params: {access_token: seller_user_token.token ,  product:{name: "product A"}}
           end
-          it "return status 202" do
-            expect(response).to have_http_status(202)
+          it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end

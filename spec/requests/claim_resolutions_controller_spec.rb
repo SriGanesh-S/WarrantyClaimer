@@ -131,8 +131,8 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
         before do
              post"/api/claim_resolutions/" , params: {access_token: seller_user_token.token ,  claim_resolution:{status:"Accepted", description:"Our team will validate your claim", warranty_claim_id: warranty_claim.id}}
         end
-        it "return status 202" do
-          expect(response).to have_http_status(201)
+        it "return status 200" do
+          expect(response).to have_http_status(200)
         end
 
       end
@@ -173,8 +173,8 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
           before do
                patch "/api/claim_resolutions/#{claim_resolution.id}" , params: {access_token: seller_user_token.token ,  claim_resolution:{description: "Updated description for claim request of the product "}}
           end
-          it "return status 202" do
-            expect(response).to have_http_status(202)
+          it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end

@@ -132,8 +132,8 @@ RSpec.describe "Api::WarrantyClaimsControllers", type: :request do
         before do 
            post "/api/warranty_claims/" , params: {access_token: customer_user_token.token ,  warranty_claim:{problem_description: " problems & issues of the product ", invoice_id: invoice.id }}
         end
-        it "return status 201" do
-          expect(response).to have_http_status(201)
+        it "return status 200" do
+          expect(response).to have_http_status(200)
         end
 
       end
@@ -190,8 +190,8 @@ RSpec.describe "Api::WarrantyClaimsControllers", type: :request do
           before do 
              patch "/api/warranty_claims/#{warranty_claim.id}" , params: {access_token: customer_user_token.token ,  warranty_claim:{problem_description: "Updated problem issues of the product "}}
           end
-          it "return status 202" do
-            expect(response).to have_http_status(202)
+          it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end

@@ -33,7 +33,7 @@ class Api::AddressesController < Api::ApiController
       address.addressable_id=current_user.userable_id
       address.addressable_type=current_user.userable_type
          if(address.save)
-             render json:address , status: 201#created
+             render json:address , status: 200#created
          else
              render json:{error: address.errors.full_messages},status:422 #unprocessable_entity
          end
@@ -47,7 +47,7 @@ class Api::AddressesController < Api::ApiController
    if @address
     if current_user.userable.addresses.include?(@address)
       if(@address.update(address_params))
-        render json:@address , status: 202#accepted
+        render json:@address , status: 200#accepted
       else
         render json:{error: @address.errors.full_messages}, status:422 #unprocessable_entity
       end

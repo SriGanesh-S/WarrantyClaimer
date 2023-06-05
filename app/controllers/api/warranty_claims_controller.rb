@@ -20,7 +20,7 @@ class  Api::WarrantyClaimsController < Api::ApiController
                     
                     if(@warranty_claim.save)
                         set_claim_status 
-                        render json:@warranty_claim , status: 201#created
+                        render json:@warranty_claim , status: 200#created
                     else
                         render json:{error: @warranty_claim.errors.full_messages},status:422 #unprocessable_entity
                     end
@@ -42,7 +42,7 @@ class  Api::WarrantyClaimsController < Api::ApiController
             def update
               if current_user.userable.warranty_claims.include?(@warranty_claim)&&current_user.customer?   
                     if(@warranty_claim.update(update_warranty_claim_params))
-                        render json:@warranty_claim , status: 202#accepted
+                        render json:@warranty_claim , status: 200#accepted
                     else
                         render json:{error: @warranty_claim.errors.full_messages}, status:422 #unprocessable_entity
                     end

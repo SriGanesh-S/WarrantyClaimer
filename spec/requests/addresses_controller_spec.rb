@@ -125,8 +125,8 @@ RSpec.describe "Api::AddressesControllers", type: :request do
           before do
             post "/api/addresses/" , params: {access_token: seller_user_token.token ,  address:{door_no: '101',street:"East Street",district: "Coimbatore",state:"Tamil Nadu", pin_code: 641001, phone: 7654321899, addressable:seller }}
           end
-         it "return status 201" do
-            expect(response).to have_http_status(201)
+         it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end
@@ -145,8 +145,8 @@ RSpec.describe "Api::AddressesControllers", type: :request do
             before do
               post "/api/addresses/" , params: {access_token: customer_user_token.token ,address:{door_no: '101',street:"East Street",district: "Coimbatore",state:"Tamil Nadu", pin_code: 641001, phone: 7654321899, addressable:customer }}
             end
-           it "return status 201" do
-              expect(response).to have_http_status(201)
+           it "return status 200" do
+              expect(response).to have_http_status(200)
             end
     
           end
@@ -182,8 +182,8 @@ RSpec.describe "Api::AddressesControllers", type: :request do
           before do
             patch "/api/addresses/#{seller_address.id}" , params: {access_token: seller_user_token.token ,  address:{street: "Street A"}}
           end
-         it "return status 202" do
-            expect(response).to have_http_status(202)
+         it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end
@@ -202,8 +202,8 @@ RSpec.describe "Api::AddressesControllers", type: :request do
             before do
                patch "/api/addresses/#{customer_address.id}" , params: {access_token: customer_user_token.token ,  address:{street: "Street A"}}
             end
-           it "return status 202" do
-              expect(response).to have_http_status(202)
+           it "return status 200" do
+              expect(response).to have_http_status(200)
             end
     
           end
@@ -305,10 +305,10 @@ RSpec.describe "Api::AddressesControllers", type: :request do
 
 
 
-      describe "put /addresses#primary_address" do
+      describe "patch /addresses#primary_address" do
         context "when user is not authenticated" do
           before do
-            put '/api/addresses/primary_address'
+            patch '/api/addresses/primary_address'
           end
          it "returns status 401" do
             expect(response).to have_http_status(401)
@@ -316,7 +316,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
         end
         context "when authenticated seller_user accesses update with valid address" do
           before do
-             put "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  id:seller_address.id }
+             patch "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  id:seller_address.id }
           end
            it "return status 200" do
               expect(response).to have_http_status(200)
@@ -326,7 +326,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
 
           context "when authenticated customer_user accesses update with valid address" do
               before do
-                put "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  id:customer_address.id }
+                patch "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  id:customer_address.id }
               end
            it "return status 200" do
               expect(response).to have_http_status(200)
@@ -336,7 +336,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
 
           context "when authenticated customer_user accesses update with other's address" do
             before do
-              put "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  id:seller_address.id }
+              patch "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  id:seller_address.id }
             end
            it "return status 403" do
               expect(response).to have_http_status(403)
@@ -346,7 +346,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
 
           context "when authenticated seller_user accesses update with other's address" do
             before do
-              put "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  id:customer_address.id }
+              patch "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  id:customer_address.id }
             end
            it "return status 403" do
               expect(response).to have_http_status(403)

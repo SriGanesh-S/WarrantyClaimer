@@ -14,7 +14,7 @@ class Api::CustomersController < Api::ApiController
       if customer
         customer=Customer.new(customer_params)
         if(customer.save)
-            render json:customer , status: 201#created
+            render json:customer , status: 200#created
         else
             render json:{error: customer.error.full_messages},status:422 #unprocessable_entity
         end
@@ -44,7 +44,7 @@ class Api::CustomersController < Api::ApiController
         if customer
           if customer.id==current_user.userable_id && current_user.customer?
             if(customer.update(customer_params))
-              render json:customer , status:202
+              render json:customer , status:200
             else
               render json:{error: customer.errors.full_messages}, status:422 #unprocessable_entity
             end

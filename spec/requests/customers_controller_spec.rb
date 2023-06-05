@@ -115,8 +115,8 @@ RSpec.describe "Api::CustomersControllers", type: :request do
           before do 
              patch "/api/customers/#{customer.id}" , params: {access_token: customer_user_token.token ,  customer:{name: "Customer A"}}
           end
-          it "return status 202" do
-            expect(response).to have_http_status(202)
+          it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end

@@ -19,7 +19,7 @@ class Api::ProductsController < Api::ApiController
                @product=Product.new(product_params)
                @product.seller_id=current_user.userable_id
                if(@product.save)
-                render json:@product , status: 201#created
+                render json:@product , status: 200#created
                else
                 render json:{error: @product.errors.full_messages},status:422 #unprocessable_entity
                end
@@ -49,7 +49,7 @@ class Api::ProductsController < Api::ApiController
           if current_user.seller? && current_user.userable.products.include?(@product)
           if @product    
              if(@product.update(product_params))
-                 render json:@product , status: 202#accepted
+                 render json:@product , status: 200#accepted
              else
                  render json:{error: @product.errors.full_messages}, status:422 #unprocessable_entity
              end

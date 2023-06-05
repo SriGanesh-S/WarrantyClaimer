@@ -57,6 +57,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @address.phone =userable.phone_no
       p "++++++++++++++++++++++++++++++" 
      if !  @address.save
+         @address.destroy
+         userable.destroy
+         resource.destroy
          flash[:alert]="Invalid Address "
          render :new
          return
@@ -65,6 +68,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
       userable.primary_address_id= @address.id
 
       if ! userable.save
+        @address.destroy
+        userable.destroy
+        resource.destroy
         flash[:alert]="Invalid user credentials "
          render :new
          return

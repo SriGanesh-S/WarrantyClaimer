@@ -88,7 +88,7 @@ class Api::AddressesController < Api::ApiController
   end
 
   def primary_address
-    address =Address.find_by(id: params[:id])
+    address =Address.find_by(id: params[:address_id])
     if address
       if current_user.userable.addresses.include?(address )
         if current_user.userable.update(primary_address_id: address.id)

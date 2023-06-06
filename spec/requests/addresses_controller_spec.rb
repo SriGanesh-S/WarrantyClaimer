@@ -316,7 +316,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
         end
         context "when authenticated seller_user accesses update with valid address" do
           before do
-             patch "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  id:seller_address.id }
+             patch "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  address_id:seller_address.id }
           end
            it "return status 200" do
               expect(response).to have_http_status(200)
@@ -326,7 +326,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
 
           context "when authenticated customer_user accesses update with valid address" do
               before do
-                patch "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  id:customer_address.id }
+                patch "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  address_id:customer_address.id }
               end
            it "return status 200" do
               expect(response).to have_http_status(200)
@@ -336,7 +336,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
 
           context "when authenticated customer_user accesses update with other's address" do
             before do
-              patch "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  id:seller_address.id }
+              patch "/api/addresses/primary_address" , params: {access_token: customer_user_token.token ,  address_id:seller_address.id }
             end
            it "return status 403" do
               expect(response).to have_http_status(403)
@@ -346,7 +346,7 @@ RSpec.describe "Api::AddressesControllers", type: :request do
 
           context "when authenticated seller_user accesses update with other's address" do
             before do
-              patch "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  id:customer_address.id }
+              patch "/api/addresses/primary_address" , params: {access_token: seller_user_token.token ,  address_id:customer_address.id }
             end
            it "return status 403" do
               expect(response).to have_http_status(403)

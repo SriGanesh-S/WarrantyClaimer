@@ -68,7 +68,7 @@ class Api::ClaimResolutionsController< Api::ApiController
     
     def default_claim_resolution
       
-      claim_resolution = ClaimResolution.find_by(id: params[:id])
+      claim_resolution = ClaimResolution.find_by(id: params[:claim_resolution_id])
       if claim_resolution
         if current_user.seller? && current_user.userable.claim_resolutions.include?(claim_resolution)
           claim_resolution.status="In Progress"

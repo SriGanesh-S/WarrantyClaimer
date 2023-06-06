@@ -181,7 +181,7 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
 
         context "when authenticated seller_user accesses update invalid resolutions" do
           before do
-               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , id: resolution.id + 45678 }
+               patch "/api/claim_resolutions/#{claim_resolution.id + + 45678}" , params: {access_token: seller_user_token.token   }
           end
           it "return status 404" do
             expect(response).to have_http_status(404)
@@ -191,7 +191,7 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
   
         context "when authenticated seller_user accesses update other seller resolutions" do
           before do
-               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , id:resolution.id  }
+               patch "/api/claim_resolutions/#{resolution.id}" , params: {access_token: seller_user_token.token  }
           end
           it "return status 403" do
             expect(response).to have_http_status(403)
@@ -264,7 +264,7 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
   
         context "when authnticated customer_user accesses default_claim_resolution" do
           before do
-               patch "/api/claim_resolutions/default_claim_resolution" , params: { access_token: customer_user_token.token , id:claim_resolution.id }
+               patch "/api/claim_resolutions/default_claim_resolution" , params: { access_token: customer_user_token.token , claim_resolution_id:claim_resolution.id }
           end
           it "return status code 403" do
             expect(response).to have_http_status(403)
@@ -273,7 +273,7 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
   
         context "when authenticated seller_user accesses update other seller's resolutions" do
           before do
-               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , id:resolution.id }
+               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , claim_resolution_id:resolution.id }
           end
           it "return status 403" do
             expect(response).to have_http_status(403)
@@ -283,7 +283,7 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
 
         context "when authenticated seller_user accesses update invalid resolutions" do
           before do
-               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , id:claim_resolution.id + 56 }
+               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , claim_resolution_id:claim_resolution.id + 56 }
           end
           it "return status 404" do
             expect(response).to have_http_status(404)
@@ -293,7 +293,7 @@ RSpec.describe "Api::ClaimResolutionsControllers", type: :request do
   
         context "when authenticated seller_user accesses set resolutions to default " do
           before do
-               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , id:claim_resolution.id}
+               patch "/api/claim_resolutions/default_claim_resolution" , params: {access_token: seller_user_token.token , claim_resolution_id:claim_resolution.id}
           end
           it "return status 200" do
             expect(response).to have_http_status(200)

@@ -133,8 +133,8 @@ RSpec.describe "Api::SellersControllers", type: :request do
           before do 
              patch "/api/sellers/#{seller.id}" , params: {access_token: seller_user_token.token ,  seller:{name: "Seller A"}}
           end
-          it "return status 202" do
-            expect(response).to have_http_status(202)
+          it "return status 200" do
+            expect(response).to have_http_status(200)
           end
   
         end

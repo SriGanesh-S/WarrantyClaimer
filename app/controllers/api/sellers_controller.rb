@@ -38,7 +38,7 @@ class Api::SellersController < Api::ApiController
         if @seller.id==current_user.userable_id && current_user.seller?
       
           if(@seller.update(seller_params))
-            render json:@seller , status:202#accepted
+            render json:@seller , status:200#accepted
           else
             render json:{error: @seller.errors.full_messages}, status:422 #unprocessable_entity
            end
